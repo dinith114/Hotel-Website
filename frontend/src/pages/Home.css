@@ -102,7 +102,7 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1.1fr;
   z-index: 4;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  animation: fadeInUp 1.3s ease;
+  animation: bookingFadeUp 0.8s ease;
 }
 
 .booking-item,
@@ -285,8 +285,12 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes riseUp {
@@ -319,6 +323,17 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes bookingFadeUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 }
 

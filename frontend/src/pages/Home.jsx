@@ -10,7 +10,7 @@ import food from "../assets/food.png";
 import flower from "../assets/flower.png";
 import meeting from "../assets/meeting.png";
 
-function Home() {
+function Home({ onOpenMenu }) {
   return (
     <div className="home-page">
       <section className="hero-section">
@@ -19,7 +19,7 @@ function Home() {
 
         <header className="top-bar">
           <img src={logo} alt="Logo" className="logo" />
-          <button className="menu-btn" aria-label="menu">
+          <button className="menu-btn" aria-label="menu" onClick={onOpenMenu}>
             &#9776;
           </button>
         </header>
