@@ -1,0 +1,1336 @@
+{
+  "info": {
+    "name": "Hotel Website API",
+    "description": "Complete API collection for Hotel Management System with Admin Authentication, Careers, Blog, and Offers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@hotel.com\",\n  \"password\": \"Admin@123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register Admin (Super Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@hotel.com\",\n  \"password\": \"SecurePass123!\",\n  \"role\": \"admin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"email\": \"updated@hotel.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/update-profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "update-profile"]
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"Admin@123456\",\n  \"newPassword\": \"NewSecurePass123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/change-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "change-password"]
+            }
+          }
+        },
+        {
+          "name": "Get All Admins",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/admins",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "admins"]
+            }
+          }
+        },
+        {
+          "name": "Update Admin Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isActive\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/admins/:adminId/status",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "admins", ":adminId", "status"],
+              "variable": [
+                {
+                  "key": "adminId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Admin",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/admins/:adminId",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "admins", ":adminId"],
+              "variable": [
+                {
+                  "key": "adminId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Careers",
+      "item": [
+        {
+          "name": "Get All Jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/careers?page=1&limit=10&department=Kitchen&status=active",
+              "host": ["{{base_url}}"],
+              "path": ["careers"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "department",
+                  "value": "Kitchen"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Job",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/careers/:jobId",
+              "host": ["{{base_url}}"],
+              "path": ["careers", ":jobId"],
+              "variable": [
+                {
+                  "key": "jobId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Job (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Chef de Cuisine\",\n  \"department\": \"Kitchen\",\n  \"location\": \"Main Property - Grand Hotel\",\n  \"employmentType\": \"Full-time\",\n  \"description\": \"We are looking for an experienced Chef de Cuisine to lead our kitchen team. The ideal candidate will have extensive experience in fine dining and team management.\",\n  \"requirements\": \"• Minimum 5 years experience in professional kitchen\\n• Culinary degree or equivalent certification\\n• Strong leadership and communication skills\\n• Knowledge of food safety regulations\",\n  \"responsibilities\": \"• Oversee kitchen operations\\n• Menu planning and development\\n• Train and supervise kitchen staff\\n• Maintain quality standards\",\n  \"salaryRange\": {\n    \"min\": 50000,\n    \"max\": 70000,\n    \"currency\": \"USD\"\n  },\n  \"experienceRequired\": \"5+ years\",\n  \"vacancies\": 2,\n  \"applicationDeadline\": \"2026-12-31\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/careers",
+              "host": ["{{base_url}}"],
+              "path": ["careers"]
+            }
+          }
+        },
+        {
+          "name": "Update Job (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"closed\",\n  \"vacancies\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/careers/:jobId",
+              "host": ["{{base_url}}"],
+              "path": ["careers", ":jobId"],
+              "variable": [
+                {
+                  "key": "jobId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Job (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/careers/:jobId",
+              "host": ["{{base_url}}"],
+              "path": ["careers", ":jobId"],
+              "variable": [
+                {
+                  "key": "jobId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Career Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/careers/stats/overview",
+              "host": ["{{base_url}}"],
+              "path": ["careers", "stats", "overview"]
+            }
+          }
+        },
+        {
+          "name": "Submit Job Application (Public)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"email\": \"jane.smith@example.com\",\n  \"phone\": \"+1234567890\",\n  \"address\": {\n    \"street\": \"123 Main Street\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"USA\",\n    \"zipCode\": \"10001\"\n  },\n  \"education\": \"Bachelor's Degree in Culinary Arts from Culinary Institute of America\",\n  \"experience\": \"5 years as Sous Chef at Michelin-starred restaurant. Specialized in French cuisine and kitchen management.\",\n  \"skills\": \"French cuisine, Italian cuisine, Team leadership, Menu planning, Food costing, Inventory management\",\n  \"coverLetter\": \"I am writing to express my strong interest in the Chef de Cuisine position at your prestigious hotel. With over 5 years of experience in fine dining establishments, I am confident in my ability to lead your kitchen team to excellence. My passion for culinary arts and proven track record in creating innovative menus make me an ideal candidate for this position.\",\n  \"linkedinProfile\": \"https://linkedin.com/in/janesmith\",\n  \"availability\": \"Within 1 month\",\n  \"expectedSalary\": 65000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/careers/:careerId/apply",
+              "host": ["{{base_url}}"],
+              "path": ["careers", ":careerId", "apply"],
+              "variable": [
+                {
+                  "key": "careerId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get All Applications (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/careers/applications/all?page=1&limit=20&status=pending",
+              "host": ["{{base_url}}"],
+              "path": ["careers", "applications", "all"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "pending"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Application (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/careers/applications/:applicationId",
+              "host": ["{{base_url}}"],
+              "path": ["careers", "applications", ":applicationId"],
+              "variable": [
+                {
+                  "key": "applicationId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Application Status (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"shortlisted\",\n  \"notes\": \"Great candidate with excellent qualifications. Schedule for interview.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/careers/applications/:applicationId/status",
+              "host": ["{{base_url}}"],
+              "path": ["careers", "applications", ":applicationId", "status"],
+              "variable": [
+                {
+                  "key": "applicationId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Application (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/careers/applications/:applicationId",
+              "host": ["{{base_url}}"],
+              "path": ["careers", "applications", ":applicationId"],
+              "variable": [
+                {
+                  "key": "applicationId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Application Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/careers/applications/stats/overview",
+              "host": ["{{base_url}}"],
+              "path": ["careers", "applications", "stats", "overview"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Blog",
+      "item": [
+        {
+          "name": "Get All Blog Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/blogs?page=1&limit=10&status=published&isFeatured=true",
+              "host": ["{{base_url}}"],
+              "path": ["blogs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "published"
+                },
+                {
+                  "key": "isFeatured",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Blog Post",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/blogs/:slugOrId",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", ":slugOrId"],
+              "variable": [
+                {
+                  "key": "slugOrId",
+                  "value": "10-tips-for-perfect-hotel-experience"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Blog Post (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"10 Tips for a Perfect Hotel Experience\",\n  \"excerpt\": \"Discover the secrets to making the most of your hotel stay with our expert tips and recommendations.\",\n  \"content\": \"<h2>Introduction</h2><p>Planning a hotel stay? Whether you're traveling for business or pleasure, these 10 tips will help you maximize your experience...</p><h3>1. Book Directly with the Hotel</h3><p>Booking directly often gets you better rates and perks...</p>\",\n  \"category\": \"PASTE_CATEGORY_ID_HERE\",\n  \"tags\": [\"hospitality\", \"travel tips\", \"hotel guide\", \"luxury stay\"],\n  \"status\": \"published\",\n  \"isFeatured\": true,\n  \"featuredImageUrl\": \"https://example.com/image.jpg\",\n  \"seo\": {\n    \"metaTitle\": \"10 Tips for Perfect Hotel Experience | Grand Hotel\",\n    \"metaDescription\": \"Make the most of your hotel stay with these expert tips. Learn insider secrets for the perfect hotel experience.\",\n    \"keywords\": [\"hotel tips\", \"travel guide\", \"hospitality\"]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/blogs",
+              "host": ["{{base_url}}"],
+              "path": ["blogs"]
+            }
+          }
+        },
+        {
+          "name": "Update Blog Post (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"published\",\n  \"isFeatured\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/blogs/:blogId",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", ":blogId"],
+              "variable": [
+                {
+                  "key": "blogId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Blog Post (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/blogs/:blogId",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", ":blogId"],
+              "variable": [
+                {
+                  "key": "blogId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Blog Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/blogs/stats/overview",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", "stats", "overview"]
+            }
+          }
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/blogs/categories/all",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", "categories", "all"]
+            }
+          }
+        },
+        {
+          "name": "Get Single Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/blogs/categories/:slugOrId",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", "categories", ":slugOrId"],
+              "variable": [
+                {
+                  "key": "slugOrId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Category (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Travel Tips\",\n  \"description\": \"Expert tips and advice for travelers\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/blogs/categories",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Update Category (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Category Name\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/blogs/categories/:categoryId",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", "categories", ":categoryId"],
+              "variable": [
+                {
+                  "key": "categoryId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Category (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/blogs/categories/:categoryId",
+              "host": ["{{base_url}}"],
+              "path": ["blogs", "categories", ":categoryId"],
+              "variable": [
+                {
+                  "key": "categoryId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Offers",
+      "item": [
+        {
+          "name": "Get All Offers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/offers?page=1&limit=10&onlyActive=true&isFeatured=true",
+              "host": ["{{base_url}}"],
+              "path": ["offers"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "onlyActive",
+                  "value": "true"
+                },
+                {
+                  "key": "isFeatured",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Single Offer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/offers/:slugCodeOrId",
+              "host": ["{{base_url}}"],
+              "path": ["offers", ":slugCodeOrId"],
+              "variable": [
+                {
+                  "key": "slugCodeOrId",
+                  "value": "SUMMER2026"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Validate Offer Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"SUMMER2026\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/offers/validate",
+              "host": ["{{base_url}}"],
+              "path": ["offers", "validate"]
+            }
+          }
+        },
+        {
+          "name": "Create Offer (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Summer Special Discount\",\n  \"description\": \"Book your summer vacation now and get 20% off on all room types! Valid for stays between June and August 2026.\",\n  \"offerType\": \"percentage\",\n  \"discountPercentage\": 20,\n  \"validFrom\": \"2026-06-01T00:00:00.000Z\",\n  \"validTo\": \"2026-08-31T23:59:59.999Z\",\n  \"termsAndConditions\": \"• Valid for new bookings only\\n• Cannot be combined with other offers\\n• Minimum 2 nights stay required\\n• Blackout dates may apply\\n• Subject to availability\",\n  \"code\": \"SUMMER2026\",\n  \"minBookingDays\": 2,\n  \"maxBookingDays\": 14,\n  \"status\": \"active\",\n  \"isFeatured\": true,\n  \"priority\": 10,\n  \"usageLimit\": 100,\n  \"imageUrl\": \"https://example.com/summer-offer.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/offers",
+              "host": ["{{base_url}}"],
+              "path": ["offers"]
+            }
+          }
+        },
+        {
+          "name": "Update Offer (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"inactive\",\n  \"discountPercentage\": 25\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/offers/:offerId",
+              "host": ["{{base_url}}"],
+              "path": ["offers", ":offerId"],
+              "variable": [
+                {
+                  "key": "offerId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Offer (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/offers/:offerId",
+              "host": ["{{base_url}}"],
+              "path": ["offers", ":offerId"],
+              "variable": [
+                {
+                  "key": "offerId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Increment Offer Usage",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/offers/:offerId/use",
+              "host": ["{{base_url}}"],
+              "path": ["offers", ":offerId", "use"],
+              "variable": [
+                {
+                  "key": "offerId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Offer Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/offers/stats/overview",
+              "host": ["{{base_url}}"],
+              "path": ["offers", "stats", "overview"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rooms",
+      "item": [
+        {
+          "name": "Get All Rooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/rooms",
+              "host": ["{{base_url}}"],
+              "path": ["rooms"]
+            }
+          }
+        },
+        {
+          "name": "Create Room (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomType\": \"Presidential Suite\",\n  \"totalInventory\": 5,\n  \"pricePerNight\": 599,\n  \"description\": \"Luxurious presidential suite with panoramic ocean views, private balcony, and premium amenities.\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/rooms",
+              "host": ["{{base_url}}"],
+              "path": ["rooms"]
+            }
+          }
+        },
+        {
+          "name": "Update Room (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pricePerNight\": 549,\n  \"totalInventory\": 6\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/rooms/:roomId",
+              "host": ["{{base_url}}"],
+              "path": ["rooms", ":roomId"],
+              "variable": [
+                {
+                  "key": "roomId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Room (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/rooms/:roomId",
+              "host": ["{{base_url}}"],
+              "path": ["rooms", ":roomId"],
+              "variable": [
+                {
+                  "key": "roomId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Check Availability",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"checkInDate\": \"2026-07-15\",\n  \"checkOutDate\": \"2026-07-20\",\n  \"rooms\": [\n    {\n      \"roomType\": \"Deluxe Suite\",\n      \"quantity\": 2\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookings/availability",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", "availability"]
+            }
+          }
+        },
+        {
+          "name": "Create Booking (Public)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"+1234567890\",\n  \"country\": \"USA\",\n  \"checkInDate\": \"2026-07-15\",\n  \"checkOutDate\": \"2026-07-20\",\n  \"rooms\": [\n    {\n      \"roomType\": \"Deluxe Suite\",\n      \"mealPlan\": \"Bed and Breakfast\",\n      \"guests\": 2\n    },\n    {\n      \"roomType\": \"Standard Room\",\n      \"mealPlan\": \"Room Only\",\n      \"guests\": 1\n    }\n  ],\n  \"arrivalTime\": \"02:30 PM\",\n  \"specialRemarks\": \"Early check-in preferred. Celebrating anniversary.\",\n  \"airportPickup\": \"Yes - Flight AA123 arriving at 12:00 PM\",\n  \"airportDrop\": \"Not required\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["bookings"]
+            }
+          }
+        },
+        {
+          "name": "Get All Bookings (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/bookings",
+              "host": ["{{base_url}}"],
+              "path": ["bookings"]
+            }
+          }
+        },
+        {
+          "name": "Get Single Booking",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/bookings/:bookingId",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", ":bookingId"],
+              "variable": [
+                {
+                  "key": "bookingId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Booking (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/bookings/:bookingId",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", ":bookingId"],
+              "variable": [
+                {
+                  "key": "bookingId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Booking (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/bookings/:bookingId",
+              "host": ["{{base_url}}"],
+              "path": ["bookings", ":bookingId"],
+              "variable": [
+                {
+                  "key": "bookingId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inquiries",
+      "item": [
+        {
+          "name": "Submit Inquiry (Public)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sarah Johnson\",\n  \"email\": \"sarah.j@example.com\",\n  \"phone\": \"+1234567890\",\n  \"message\": \"I would like to inquire about hosting a corporate event at your hotel. We are expecting around 50 guests for a 2-day conference in September. Could you please provide information about your conference facilities and packages?\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/inquiries",
+              "host": ["{{base_url}}"],
+              "path": ["inquiries"]
+            }
+          }
+        },
+        {
+          "name": "Get All Inquiries (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/inquiries",
+              "host": ["{{base_url}}"],
+              "path": ["inquiries"]
+            }
+          }
+        },
+        {
+          "name": "Get Single Inquiry (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/inquiries/:inquiryId",
+              "host": ["{{base_url}}"],
+              "path": ["inquiries", ":inquiryId"],
+              "variable": [
+                {
+                  "key": "inquiryId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Inquiry Status (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"resolved\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/inquiries/:inquiryId",
+              "host": ["{{base_url}}"],
+              "path": ["inquiries", ":inquiryId"],
+              "variable": [
+                {
+                  "key": "inquiryId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Inquiry (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/inquiries/:inquiryId",
+              "host": ["{{base_url}}"],
+              "path": ["inquiries", ":inquiryId"],
+              "variable": [
+                {
+                  "key": "inquiryId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}",
+          "host": ["{{base_url}}"]
+        }
+      }
+    }
+  ]
+}
