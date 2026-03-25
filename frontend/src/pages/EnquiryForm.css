@@ -107,6 +107,57 @@
   font-family: "Poppins", Arial, sans-serif;
 }
 
+.error-text {
+  margin: 6px 0 0;
+  color: #dc3545;
+  font-size: 0.85rem;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 24px 22px;
+  border-radius: 14px;
+  min-width: 300px;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.popup-box p {
+  margin: 0 0 18px;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.popup-box button {
+  border: none;
+  background: #d4af37;
+  color: #111;
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.popup-overlay.success .popup-box {
+  border-top: 6px solid #28a745;
+}
+
+.popup-overlay.error .popup-box {
+  border-top: 6px solid #dc3545;
+}
+
 .field-with-label {
   display: grid;
   grid-template-columns: 80px 1fr;
