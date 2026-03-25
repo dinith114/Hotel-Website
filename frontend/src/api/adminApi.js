@@ -22,7 +22,7 @@ adminApi.interceptors.response.use(
       window.location.href = "/admin/login";
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 // ─── Auth ────────────────────────────────────────
@@ -35,6 +35,8 @@ export const authApi = {
   getAllAdmins: () => adminApi.get("/auth/admins"),
   updateAdminStatus: (id, data) =>
     adminApi.put(`/auth/admins/${id}/status`, data),
+  resetAdminPassword: (id, data) =>
+    adminApi.put(`/auth/admins/${id}/reset-password`, data),
   deleteAdmin: (id) => adminApi.delete(`/auth/admins/${id}`),
 };
 

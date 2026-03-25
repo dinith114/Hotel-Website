@@ -8,6 +8,7 @@ const {
   getMe,
   updateProfile,
   changePassword,
+  resetAdminPassword,
   getAllAdmins,
   updateAdminStatus,
   deleteAdmin,
@@ -52,6 +53,16 @@ const changePasswordValidation = [
     ),
 ];
 
+const resetPasswordValidation = [
+  body("newPassword")
+    .isLength({ min: 8 })
+    .withMessage("New password must be at least 8 characters")
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage(
+      "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+    ),
+];
+
 // Public routes
 router.post("/login", loginValidation, validate, login);
 
@@ -81,6 +92,14 @@ router.put(
   protect,
   authorize("super_admin"),
   updateAdminStatus,
+);
+router.put(
+  "/admins/:id/reset-password",
+  protect,
+  authorize("super_admin"),
+  resetPasswordValidation,
+  validate,
+  resetAdminPassword,
 );
 router.delete("/admins/:id", protect, authorize("super_admin"), deleteAdmin);
 

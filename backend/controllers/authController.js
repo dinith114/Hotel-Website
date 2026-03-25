@@ -1,6 +1,32 @@
 const Admin = require("../models/Admin");
 const { sendSuccess } = require("../utils/responseHandler");
-const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
+
+const buildAdminCredentialsEmail = ({ name, email, password, role }) => {
+  const dashboardUrl = `${process.env.CLIENT_URL || "http://localhost:5173"}/admin/login`;
+
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto; color: #1f2937; line-height: 1.55;">
+      <h2 style="margin-bottom: 12px;">Welcome to Renuka Hotel Admin Panel</h2>
+      <p>Hello ${name || "Admin"},</p>
+      <p>Your admin account has been created by the Super Admin. Use the details below to sign in.</p>
+
+      <div style="background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 16px 0;">
+        <p style="margin: 0 0 6px;"><strong>Login URL:</strong> <a href="${dashboardUrl}">${dashboardUrl}</a></p>
+        <p style="margin: 0 0 6px;"><strong>Email:</strong> ${email}</p>
+        <p style="margin: 0 0 6px;"><strong>Password:</strong> ${password}</p>
+        <p style="margin: 0;"><strong>Role:</strong> ${role}</p>
+      </div>
+
+      <div style="background: #fff7ed; border-left: 4px solid #f59e0b; padding: 12px 14px; border-radius: 6px; margin: 14px 0;">
+        <strong>Important:</strong> Please change your password immediately after your first login.
+      </div>
+
+      <p style="margin-top: 18px;">If you did not expect this account, contact the Super Admin immediately.</p>
+      <p style="margin-top: 20px;">Regards,<br/>Renuka Hotel Team</p>
+    </div>
+  `;
+};
 
 // @desc    Register new admin (Super admin only)
 // @route   POST /api/v1/auth/register
@@ -24,6 +50,26 @@ exports.register = async (req, res, next) => {
       password,
       role: role || "admin",
     });
+
+    try {
+      await sendEmail({
+        email,
+        subject: "Your Renuka Hotel Admin Login Credentials",
+        message: buildAdminCredentialsEmail({
+          name: admin.name,
+          email: admin.email,
+          password,
+          role: admin.role,
+        }),
+      });
+    } catch (emailError) {
+      await Admin.findByIdAndDelete(admin._id);
+      return res.status(500).json({
+        success: false,
+        message:
+          "Admin account could not be created because the credentials email failed to send. Please verify SMTP settings and try again.",
+      });
+    }
 
     const token = admin.generateAuthToken();
 
@@ -212,6 +258,42 @@ exports.changePassword = async (req, res, next) => {
     await admin.save();
 
     sendSuccess(res, null, "Password changed successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Reset admin password (Super admin only)
+// @route   PUT /api/v1/auth/admins/:id/reset-password
+// @access  Private/Super Admin
+exports.resetAdminPassword = async (req, res, next) => {
+  try {
+    const { newPassword } = req.body;
+
+    if (!newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a new password",
+      });
+    }
+
+    const admin = await Admin.findById(req.params.id).select("+password");
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: "Admin not found",
+      });
+    }
+
+    admin.password = newPassword;
+    admin.loginAttempts = 0;
+    admin.lockUntil = undefined;
+    admin.resetPasswordToken = undefined;
+    admin.resetPasswordExpire = undefined;
+    await admin.save();
+
+    sendSuccess(res, null, "Admin password reset successfully");
   } catch (error) {
     next(error);
   }
