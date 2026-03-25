@@ -11,6 +11,7 @@ import EnquiryForm from "./pages/EnquiryForm";
 import Facilities from "./pages/Facilities";
 import Careers from "./pages/Careers";
 import ContactUs from "./pages/ContactUS";
+import Colombo from "./pages/Colombo"
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -29,6 +30,8 @@ function App() {
         onFacilitiesClick={() => setCurrentPage("facilities")}
         onCareersClick={() => setCurrentPage("careers")}
         onContactClick={() => setCurrentPage("contactus")}
+        onColomboClick={()=> setCurrentPage("colombo")}
+        
       />
     );
   }
@@ -56,14 +59,16 @@ function App() {
     return <EnquiryForm onBackToMenu={() => setCurrentPage("special")} />;
   }
 
-  if (currentPage === "facilities") {
+  if (currentPage === "colombo") {
     return (
-      <Facilities
+      <Colombo
         onBackToMenu={() => setCurrentPage("menu")}
         onBookingClick={() => setCurrentPage("booking")}
       />
     );
   }
+
+
 
   if (currentPage === "dine") {
     return (
@@ -90,7 +95,7 @@ function App() {
         onBookingClick={() => setCurrentPage("booking")}
       />
     );
-  } // ✅ FIXED: properly closed this block
+  } 
 
   if (currentPage === "meetings") {
     return (
@@ -109,6 +114,15 @@ function App() {
       />
     );
   }
+if (currentPage === "facilities") {
+  return (
+    <Facilities
+      onBackToMenu={() => setCurrentPage("menu")}
+      onBookingClick={() => setCurrentPage("booking")}
+    />
+  );
+}
+  
 
   if (currentPage === "booking") {
     return (

@@ -28,14 +28,35 @@ function MenuCard({ image, title, lines = [], onView }) {
   );
 }
 
-function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick, onMeetingsClick, onCareersClick,onContactClick }) {
+function Menu({
+  onClose,
+  onRoomsClick,
+  onDineClick,
+  onGalleryClick,
+  onMeetingsClick,
+  onSpecialClick,
+  onFacilitiesClick,
+  onCareersClick,
+  onContactClick,
+  onColomboClick,
+}) {
   return (
     <div className="menu-page">
       <nav className="menu-topbar">
         <div className="menu-links">
-          <a href="#">Colombo</a>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              onColomboClick();
+            }}
+          >
+            Colombo
+          </a>
+
           <a href="#">Offers</a>
           <a href="#">Our story</a>
+
           <a
             href="#"
             onClick={(e) => {
@@ -45,8 +66,18 @@ function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick, onMeetingsCl
           >
             Careers
           </a>
+
           <a href="#">Blog</a>
-           <a href="#" onClick={(e) => { e.preventDefault(); onContactClick(); }}>Contact us</a>
+
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              onContactClick();
+            }}
+          >
+            Contact us
+          </a>
         </div>
 
         <button
@@ -68,7 +99,11 @@ function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick, onMeetingsCl
             onView={onRoomsClick}
           />
 
-          <MenuCard image={meeting} title="Meetings" onView={onMeetingsClick} />
+          <MenuCard
+            image={meeting}
+            title="Meetings"
+            onView={onMeetingsClick}
+          />
 
           <MenuCard
             image={dine}
@@ -77,18 +112,23 @@ function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick, onMeetingsCl
             onView={onDineClick}
           />
 
-
           <MenuCard
             image={special}
             title="Special Occasion"
-            onView={() => { }}
+            onView={onSpecialClick}
           />
 
-          <MenuCard image={gallery} title="Gallery" onView={onGalleryClick} />
+          <MenuCard
+            image={gallery}
+            title="Gallery"
+            onView={onGalleryClick}
+          />
 
-          
-
-          <MenuCard image={facility} title="Facilities" onView={() => { }} />
+          <MenuCard
+            image={facility}
+            title="Facilities"
+            onView={onFacilitiesClick}
+          />
         </div>
       </section>
     </div>
