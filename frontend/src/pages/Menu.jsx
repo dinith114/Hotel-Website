@@ -28,7 +28,7 @@ function MenuCard({ image, title, lines = [], onView }) {
   );
 }
 
-function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick }) {
+function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick, onMeetingsClick, onCareersClick,onContactClick }) {
   return (
     <div className="menu-page">
       <nav className="menu-topbar">
@@ -36,9 +36,17 @@ function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick }) {
           <a href="#">Colombo</a>
           <a href="#">Offers</a>
           <a href="#">Our story</a>
-          <a href="#">Careers</a>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              onCareersClick();
+            }}
+          >
+            Careers
+          </a>
           <a href="#">Blog</a>
-          <a href="#">Contact us</a>
+           <a href="#" onClick={(e) => { e.preventDefault(); onContactClick(); }}>Contact us</a>
         </div>
 
         <button
@@ -60,7 +68,7 @@ function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick }) {
             onView={onRoomsClick}
           />
 
-          <MenuCard image={meeting} title="Meetings" onView={() => {}} />
+          <MenuCard image={meeting} title="Meetings" onView={onMeetingsClick} />
 
           <MenuCard
             image={dine}
@@ -68,17 +76,19 @@ function Menu({ onClose, onRoomsClick, onDineClick, onGalleryClick }) {
             lines={["Palmyrah", "restaurant", "& bar"]}
             onView={onDineClick}
           />
-          
+
 
           <MenuCard
             image={special}
             title="Special Occasion"
-            onView={() => {}}
+            onView={() => { }}
           />
 
           <MenuCard image={gallery} title="Gallery" onView={onGalleryClick} />
 
-          <MenuCard image={facility} title="Facilities" onView={() => {}} />
+          
+
+          <MenuCard image={facility} title="Facilities" onView={() => { }} />
         </div>
       </section>
     </div>

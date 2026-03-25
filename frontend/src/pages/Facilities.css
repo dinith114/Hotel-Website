@@ -1,0 +1,189 @@
+* {
+  box-sizing: border-box;
+}
+
+.facilities-page {
+  width: 100%;
+  background: #f4f3ef;
+  color: #111;
+  overflow-x: hidden;
+}
+
+.facilities-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.facilities-hero-bg {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+}
+
+.facilities-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.2)
+  );
+}
+
+.facilities-hero-content {
+  position: absolute;
+  top: 16%;
+  left: 3.5%;
+  z-index: 3;
+  color: #fff;
+}
+
+.facilities-hero-content h1 {
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 5.3rem);
+  font-weight: 600;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.facilities-booking-bar {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(86%, 900px);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.1fr;
+  z-index: 4;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.facilities-booking-item,
+.facilities-book-now-btn {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+.facilities-booking-item {
+  background: #fff;
+  border-right: 1px solid #ddd;
+}
+
+.facilities-book-now-btn {
+  border: none;
+  background: #cda92f;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.facilities-book-now-btn:hover {
+  background: #b8951f;
+}
+
+.facilities-content {
+  background: #f5f4ef;
+  padding: 58px 52px 54px;
+}
+
+.facilities-section {
+  margin-bottom: 56px;
+}
+
+.facilities-section h2 {
+  margin: 0 0 34px;
+  font-size: 3rem;
+  font-weight: 600;
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.facilities-section h2 span {
+  color: #d4af37;
+}
+
+.facilities-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 28px 24px;
+}
+
+.facility-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 58px;
+}
+
+.facility-icon {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 50%;
+  background: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.facility-item span {
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #222;
+}
+
+.room-section {
+  margin-top: 10px;
+}
+
+@media (max-width: 1200px) {
+  .facilities-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .facilities-content {
+    padding: 40px 20px 44px;
+  }
+
+  .facilities-booking-bar {
+    width: 92%;
+    grid-template-columns: 1fr;
+  }
+
+  .facilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .facilities-section h2 {
+    font-size: 2.3rem;
+  }
+
+  .facilities-footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .facilities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .facilities-hero-content h1 {
+    font-size: 2.7rem;
+  }
+}

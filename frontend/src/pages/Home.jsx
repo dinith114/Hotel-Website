@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./Home.css";
 import SectionCard from "../components/SectionCard";
 
@@ -10,7 +11,17 @@ import food from "../assets/food.png";
 import flower from "../assets/flower.png";
 import meeting from "../assets/meeting.png";
 
-function Home({ onOpenMenu }) {
+function Home({ onOpenMenu, onBookNowClick }) {
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState(1);
+
+  const handleSearch = () => {
+    if (onBookNowClick) {
+      onBookNowClick({ checkIn, checkOut, guests });
+    }
+  };
+
   return (
     <div className="home-page">
       <section className="hero-section">
@@ -30,10 +41,19 @@ function Home({ onOpenMenu }) {
         </div>
 
         <div className="booking-bar">
-          <div className="booking-item">📅 CHECK IN</div>
-          <div className="booking-item">📅 CHECK OUT</div>
-          <div className="booking-item">👥 GUESTS</div>
-          <button className="book-now-btn">BOOK NOW</button>
+          <div className="booking-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '0 20px', justifyContent: 'center' }}>
+            <span style={{ fontSize: '10px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>CHECK IN</span>
+            <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} style={{ padding: '0', border: 'none', outline: 'none', background: 'transparent', color: '#111', fontSize: '1rem', width: '100%', cursor: 'pointer', marginTop: '4px' }} />
+          </div>
+          <div className="booking-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '0 20px', justifyContent: 'center' }}>
+            <span style={{ fontSize: '10px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>CHECK OUT</span>
+            <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} style={{ padding: '0', border: 'none', outline: 'none', background: 'transparent', color: '#111', fontSize: '1rem', width: '100%', cursor: 'pointer', marginTop: '4px' }} />
+          </div>
+          <div className="booking-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '0 20px', justifyContent: 'center' }}>
+            <span style={{ fontSize: '10px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>GUESTS</span>
+            <input type="number" min="1" value={guests} onChange={(e) => setGuests(e.target.value)} style={{ padding: '0', border: 'none', outline: 'none', background: 'transparent', color: '#111', fontSize: '1rem', width: '100%', cursor: 'pointer', marginTop: '4px' }} />
+          </div>
+          <button className="book-now-btn" onClick={handleSearch}>BOOK NOW</button>
         </div>
       </section>
 

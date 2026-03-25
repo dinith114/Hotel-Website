@@ -59,6 +59,7 @@
   font-size: 20px;
   cursor: pointer;
   transition: transform 0.25s ease, background 0.25s ease;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .dine-menu-btn:hover {
@@ -78,9 +79,10 @@
 .dine-hero-content h1 {
   margin: 0;
   font-size: clamp(3rem, 6vw, 5.4rem);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.5px;
   text-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .dine-booking-bar {
@@ -103,7 +105,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   font-size: 0.95rem;
 }
 
@@ -163,13 +165,14 @@
 .dine-info-text h2 {
   margin: 0 0 18px;
   font-size: 2.3rem;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .dine-info-text p {
   margin: 0 auto;
   max-width: 430px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   line-height: 1.6;
   font-size: 0.98rem;
   color: #333;
@@ -220,8 +223,9 @@
   color: #fff;
   font-size: 2rem;
   line-height: 1.2;
-  font-weight: 400;
+  font-weight: 500;
   text-shadow: 0 3px 12px rgba(0, 0, 0, 0.28);
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .left-title {
@@ -250,7 +254,7 @@
   margin: 0 auto;
   max-width: 900px;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   line-height: 1.7;
   font-size: 0.96rem;
   color: #333;
@@ -291,9 +295,10 @@
 .bottom-center-text h2 {
   margin: 0;
   font-size: 2rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.45;
   color: #111;
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 /* footer */
@@ -304,7 +309,7 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr 1fr;
   gap: 28px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .dine-footer-logo {
@@ -322,6 +327,7 @@
   line-height: 1.85;
   font-size: 0.9rem;
   color: #ddd;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 /* responsive */

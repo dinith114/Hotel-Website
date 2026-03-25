@@ -58,6 +58,7 @@
   font-size: 20px;
   cursor: pointer;
   transition: transform 0.25s ease, background 0.25s ease;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .gallery-menu-btn:hover {
@@ -76,8 +77,9 @@
 .gallery-hero-content h1 {
   margin: 0;
   font-size: clamp(3rem, 6vw, 5.3rem);
-  font-weight: 500;
+  font-weight: 600;
   text-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .gallery-booking-bar {
@@ -100,7 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   font-size: 0.95rem;
 }
 
@@ -115,6 +117,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: background 0.3s ease;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .gallery-book-now-btn:hover {
@@ -168,9 +171,9 @@
 
 .gallery-card-body h3 {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Playfair Display", Georgia, serif;
   font-size: 1.8rem;
-  font-weight: 400;
+  font-weight: 500;
   text-align: center;
 }
 
@@ -183,6 +186,7 @@
   font-size: 1.15rem;
   cursor: pointer;
   transition: color 0.25s ease, background 0.25s ease;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .gallery-card-btn:hover {
@@ -197,7 +201,7 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr 1fr;
   gap: 28px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .gallery-footer-logo {
@@ -215,6 +219,7 @@
   line-height: 1.85;
   font-size: 0.9rem;
   color: #ddd;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 @media (max-width: 1100px) {

@@ -5,9 +5,16 @@ import Rooms from "./pages/Rooms";
 import Booking from "./pages/Booking";
 import DineDrink from "./pages/DineDrink";
 import Gallery from "./pages/Gallery";
+import Meetings from "./pages/Meetings";
+import SpecialOccasions from "./pages/SpecialOccasions";
+import EnquiryForm from "./pages/EnquiryForm";
+import Facilities from "./pages/Facilities";
+import Careers from "./pages/Careers";
+import ContactUs from "./pages/ContactUS";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
+  const [bookingCache, setBookingCache] = useState(null);
 
   if (currentPage === "menu") {
     return (
@@ -17,6 +24,11 @@ function App() {
         onBookingClick={() => setCurrentPage("booking")}
         onDineClick={() => setCurrentPage("dine")}
         onGalleryClick={() => setCurrentPage("gallery")}
+        onMeetingsClick={() => setCurrentPage("meetings")}
+        onSpecialClick={() => setCurrentPage("special")}
+        onFacilitiesClick={() => setCurrentPage("facilities")}
+        onCareersClick={() => setCurrentPage("careers")}
+        onContactClick={() => setCurrentPage("contactus")}
       />
     );
   }
@@ -29,6 +41,30 @@ function App() {
       />
     );
   }
+
+  if (currentPage === "special") {
+    return (
+      <SpecialOccasions
+        onBackToMenu={() => setCurrentPage("menu")}
+        onBookingClick={() => setCurrentPage("booking")}
+        onEnquiryClick={() => setCurrentPage("enquiry")}
+      />
+    );
+  }
+
+  if (currentPage === "enquiry") {
+    return <EnquiryForm onBackToMenu={() => setCurrentPage("special")} />;
+  }
+
+  if (currentPage === "facilities") {
+    return (
+      <Facilities
+        onBackToMenu={() => setCurrentPage("menu")}
+        onBookingClick={() => setCurrentPage("booking")}
+      />
+    );
+  }
+
   if (currentPage === "dine") {
     return (
       <DineDrink
@@ -39,16 +75,48 @@ function App() {
   }
 
   if (currentPage === "gallery") {
-  return (
-    <Gallery
-      onBackToMenu={() => setCurrentPage("menu")}
-      onBookingClick={() => setCurrentPage("booking")}
-    />
-  );
-}
+    return (
+      <Gallery
+        onBackToMenu={() => setCurrentPage("menu")}
+        onBookingClick={() => setCurrentPage("booking")}
+      />
+    );
+  }
+
+  if (currentPage === "contactus") {
+    return (
+      <ContactUs
+        onBackToMenu={() => setCurrentPage("menu")}
+        onBookingClick={() => setCurrentPage("booking")}
+      />
+    );
+  } // ✅ FIXED: properly closed this block
+
+  if (currentPage === "meetings") {
+    return (
+      <Meetings
+        onBackToMenu={() => setCurrentPage("menu")}
+        onBookingClick={() => setCurrentPage("booking")}
+      />
+    );
+  }
+
+  if (currentPage === "careers") {
+    return (
+      <Careers
+        onBackToMenu={() => setCurrentPage("menu")}
+        onBookingClick={() => setCurrentPage("booking")}
+      />
+    );
+  }
 
   if (currentPage === "booking") {
-    return <Booking onBackToMenu={() => setCurrentPage("menu")} />;
+    return (
+      <Booking
+        onBackToMenu={() => setCurrentPage("menu")}
+        prefilledData={bookingCache}
+      />
+    );
   }
 
   return (
