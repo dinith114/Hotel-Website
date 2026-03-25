@@ -23,6 +23,7 @@ const authRoutes = require("./routes/authRoutes");
 const careerRoutes = require("./routes/careerRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const offerRoutes = require("./routes/offerRoutes");
+const meetingEnquiryRoutes = require("./routes/meetingEnquiryRoutes");
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/careers", careerRoutes);
 app.use("/api/v1/blogs", blogRoutes);
 app.use("/api/v1/offers", offerRoutes);
+app.use("/api/v1/meeting-enquiries", meetingEnquiryRoutes);
 
 // Health check endpoint
 app.get("/api/v1", (req, res) => {
