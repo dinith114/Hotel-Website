@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { api } from "../api/api";
 import "./Rooms.css";
 
 import logo from "../assets/logo.png";
@@ -8,7 +8,13 @@ import superDeluxe from "../assets/SuperDeluxeroom.png";
 import deluxeRoom from "../assets/deluxeroom.png";
 import standardRoom from "../assets/StandardRoom.png";
 
-function RoomInfoCard({ image, title, description, onBookingClick, availableRooms }) {
+function RoomInfoCard({
+  image,
+  title,
+  description,
+  onBookingClick,
+  availableRooms,
+}) {
   return (
     <section className="room-info-card">
       <div className="room-info-image-wrap">
@@ -18,21 +24,38 @@ function RoomInfoCard({ image, title, description, onBookingClick, availableRoom
       <div className="room-info-text">
         <h2>{title}</h2>
         <p>{description}</p>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px', marginTop: '20px' }}>
-          <button type="button" onClick={() => onBookingClick(title)} disabled={availableRooms === 0} style={{ opacity: availableRooms === 0 ? 0.5 : 1 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "20px",
+            marginTop: "20px",
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => onBookingClick(title)}
+            disabled={availableRooms === 0}
+            style={{ opacity: availableRooms === 0 ? 0.5 : 1 }}
+          >
             {availableRooms === 0 ? "SOLD OUT" : "BOOK NOW"}
           </button>
-          
+
           {availableRooms !== undefined && (
-            <span style={{ 
-              fontWeight: 'bold', 
-              color: availableRooms > 0 ? '#28a745' : '#dc3545',
-              fontSize: '14px',
-              padding: '6px 12px',
-              backgroundColor: availableRooms > 0 ? '#e8f5e9' : '#f8d7da',
-              borderRadius: '4px'
-            }}>
-              {availableRooms > 0 ? `${availableRooms} Room(s) Available` : "No Rooms Available"}
+            <span
+              style={{
+                fontWeight: "bold",
+                color: availableRooms > 0 ? "#28a745" : "#dc3545",
+                fontSize: "14px",
+                padding: "6px 12px",
+                backgroundColor: availableRooms > 0 ? "#e8f5e9" : "#f8d7da",
+                borderRadius: "4px",
+              }}
+            >
+              {availableRooms > 0
+                ? `${availableRooms} Room(s) Available`
+                : "No Rooms Available"}
             </span>
           )}
         </div>
@@ -57,10 +80,10 @@ function Rooms({ onBackToMenu, onBookingClick, searchDefaults }) {
   const [availability, setAvailability] = useState([]);
 
   useEffect(() => {
-    if(searchDefaults) {
-        if(searchDefaults.checkIn) setCheckIn(searchDefaults.checkIn);
-        if(searchDefaults.checkOut) setCheckOut(searchDefaults.checkOut);
-        if(searchDefaults.guests) setGuests(searchDefaults.guests);
+    if (searchDefaults) {
+      if (searchDefaults.checkIn) setCheckIn(searchDefaults.checkIn);
+      if (searchDefaults.checkOut) setCheckOut(searchDefaults.checkOut);
+      if (searchDefaults.guests) setGuests(searchDefaults.guests);
     }
   }, [searchDefaults]);
 
@@ -68,9 +91,9 @@ function Rooms({ onBackToMenu, onBookingClick, searchDefaults }) {
     const fetchAvailability = async () => {
       if (checkIn && checkOut) {
         try {
-          const response = await axios.post("http://localhost:5000/api/v1/bookings/availability", {
+          const response = await api.checkRoomAvailability({
             checkInDate: checkIn,
-            checkOutDate: checkOut
+            checkOutDate: checkOut,
           });
           setAvailability(response.data.data || []);
         } catch (error) {
@@ -84,14 +107,14 @@ function Rooms({ onBackToMenu, onBookingClick, searchDefaults }) {
   }, [checkIn, checkOut]);
 
   const handleRoomBookClick = (roomTypeTitle) => {
-      // Strip out the word " Room" to match the DB schema for accurate availability counting
-      const cleanRoomType = roomTypeTitle.replace(" Room", "");
-      onBookingClick({ roomType: cleanRoomType, checkIn, checkOut, guests });
+    // Strip out the word " Room" to match the DB schema for accurate availability counting
+    const cleanRoomType = roomTypeTitle.replace(" Room", "");
+    onBookingClick({ roomType: cleanRoomType, checkIn, checkOut, guests });
   };
 
   const getAvailableCount = (roomType) => {
     if (!checkIn || !checkOut) return undefined;
-    const roomInfo = availability.find(r => r.roomType === roomType);
+    const roomInfo = availability.find((r) => r.roomType === roomType);
     return roomInfo ? roomInfo.availableRooms : undefined;
   };
   const roomDescription =
@@ -121,17 +144,114 @@ function Rooms({ onBackToMenu, onBookingClick, searchDefaults }) {
         </div>
 
         <div className="rooms-booking-bar">
-          <div className="rooms-booking-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '0 20px', justifyContent: 'center' }}>
-             <span style={{ fontSize: '10px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>CHECK IN</span>
-             <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} style={{ padding: '0', border: 'none', outline: 'none', background: 'transparent', color: '#111', fontSize: '1rem', width: '100%', cursor: 'pointer', marginTop: '4px' }} />
+          <div
+            className="rooms-booking-item"
+            style={{
+              flexDirection: "column",
+              alignItems: "flex-start",
+              padding: "0 20px",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "10px",
+                color: "#666",
+                fontWeight: "bold",
+                letterSpacing: "1px",
+              }}
+            >
+              CHECK IN
+            </span>
+            <input
+              type="date"
+              value={checkIn}
+              onChange={(e) => setCheckIn(e.target.value)}
+              style={{
+                padding: "0",
+                border: "none",
+                outline: "none",
+                background: "transparent",
+                color: "#111",
+                fontSize: "1rem",
+                width: "100%",
+                cursor: "pointer",
+                marginTop: "4px",
+              }}
+            />
           </div>
-          <div className="rooms-booking-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '0 20px', justifyContent: 'center' }}>
-             <span style={{ fontSize: '10px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>CHECK OUT</span>
-             <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)} style={{ padding: '0', border: 'none', outline: 'none', background: 'transparent', color: '#111', fontSize: '1rem', width: '100%', cursor: 'pointer', marginTop: '4px' }} />
+          <div
+            className="rooms-booking-item"
+            style={{
+              flexDirection: "column",
+              alignItems: "flex-start",
+              padding: "0 20px",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "10px",
+                color: "#666",
+                fontWeight: "bold",
+                letterSpacing: "1px",
+              }}
+            >
+              CHECK OUT
+            </span>
+            <input
+              type="date"
+              value={checkOut}
+              onChange={(e) => setCheckOut(e.target.value)}
+              style={{
+                padding: "0",
+                border: "none",
+                outline: "none",
+                background: "transparent",
+                color: "#111",
+                fontSize: "1rem",
+                width: "100%",
+                cursor: "pointer",
+                marginTop: "4px",
+              }}
+            />
           </div>
-          <div className="rooms-booking-item" style={{ flexDirection: 'column', alignItems: 'flex-start', padding: '0 20px', justifyContent: 'center' }}>
-             <span style={{ fontSize: '10px', color: '#666', fontWeight: 'bold', letterSpacing: '1px' }}>GUESTS</span>
-             <input type="number" min="1" value={guests} onChange={(e) => setGuests(e.target.value)} style={{ padding: '0', border: 'none', outline: 'none', background: 'transparent', color: '#111', fontSize: '1rem', width: '100%', cursor: 'pointer', marginTop: '4px' }} />
+          <div
+            className="rooms-booking-item"
+            style={{
+              flexDirection: "column",
+              alignItems: "flex-start",
+              padding: "0 20px",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "10px",
+                color: "#666",
+                fontWeight: "bold",
+                letterSpacing: "1px",
+              }}
+            >
+              GUESTS
+            </span>
+            <input
+              type="number"
+              min="1"
+              value={guests}
+              onChange={(e) => setGuests(e.target.value)}
+              style={{
+                padding: "0",
+                border: "none",
+                outline: "none",
+                background: "transparent",
+                color: "#111",
+                fontSize: "1rem",
+                width: "100%",
+                cursor: "pointer",
+                marginTop: "4px",
+              }}
+            />
           </div>
         </div>
       </section>
@@ -142,7 +262,7 @@ function Rooms({ onBackToMenu, onBookingClick, searchDefaults }) {
           title="Super Deluxe Room"
           description={roomDescription}
           onBookingClick={handleRoomBookClick}
-          availableRooms={getAvailableCount('Super Deluxe')}
+          availableRooms={getAvailableCount("Super Deluxe")}
         />
 
         <RoomInfoCard
@@ -150,7 +270,7 @@ function Rooms({ onBackToMenu, onBookingClick, searchDefaults }) {
           title="Deluxe Room"
           description={roomDescription}
           onBookingClick={handleRoomBookClick}
-          availableRooms={getAvailableCount('Deluxe')}
+          availableRooms={getAvailableCount("Deluxe")}
         />
 
         <RoomInfoCard
@@ -158,7 +278,7 @@ function Rooms({ onBackToMenu, onBookingClick, searchDefaults }) {
           title="Standard Room"
           description={roomDescription}
           onBookingClick={handleRoomBookClick}
-          availableRooms={getAvailableCount('Standard')}
+          availableRooms={getAvailableCount("Standard")}
         />
 
         <section className="amenities-section">

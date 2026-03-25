@@ -57,7 +57,9 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
-  transition: transform 0.25s ease, background 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
   font-family: "Poppins", Arial, sans-serif;
 }
 
@@ -199,7 +201,31 @@
   font-family: "Poppins", Arial, sans-serif;
 }
 
+.careers-availability-select {
+  width: 100%;
+  min-height: 44px;
+  border: none;
+  background: #e9e9e9;
+  border-radius: 14px;
+  padding: 0 14px;
+  font-size: 0.95rem;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.careers-cover-letter {
+  width: 100%;
+  min-height: 120px;
+  border: none;
+  background: #e9e9e9;
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-family: "Poppins", Arial, sans-serif;
+  resize: vertical;
+}
+
 .resume-row {
+  grid-column: 1 / -1;
   margin-top: 6px;
   margin-bottom: 30px;
 }
@@ -225,6 +251,7 @@
 }
 
 .apply-wrap {
+  grid-column: 1 / -1;
   display: flex;
   justify-content: center;
 }
@@ -239,6 +266,52 @@
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.apply-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.career-status-text {
+  max-width: 280px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #f2f2f2;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.career-details-card {
+  max-width: 340px;
+}
+
+.career-details-list {
+  margin: 10px 0 12px;
+  padding-left: 18px;
+}
+
+.career-details-list li {
+  margin-bottom: 6px;
+  color: #f2f2f2;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.career-detail-block {
+  margin: 0 0 10px;
+  color: #f2f2f2;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.career-description {
+  margin: 14px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #333;
   font-family: "Poppins", Arial, sans-serif;
 }
 

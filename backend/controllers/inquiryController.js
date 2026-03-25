@@ -68,3 +68,32 @@ exports.getInquiries = async (req, res, next) => {
         next(error);
     }
 };
+
+// @desc    Update inquiry status
+// @route   PUT /api/v1/inquiries/:id/status
+// @access  Private (Admin only)
+exports.updateInquiryStatus = async (req, res, next) => {
+    try {
+        const { status } = req.body;
+        
+        // Ensure status is valid before querying the database
+        const validStatuses = ['pending', 'reviewed', 'resolved'];
+        if (!validStatuses.includes(status)) {
+            return res.status(400).json({ success: false, message: 'Invalid status value' });
+        }
+
+        const inquiry = await Inquiry.findByIdAndUpdate(
+            req.params.id,
+            { status },
+            { new: true, runValidators: true }
+        );
+
+        if (!inquiry) {
+            return res.status(404).json({ success: false, message: 'Inquiry not found' });
+        }
+
+        sendSuccess(res, inquiry, `Inquiry marked as ${status}`);
+    } catch (error) {
+        next(error);
+    }
+};

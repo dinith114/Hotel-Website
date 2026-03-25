@@ -1,0 +1,159 @@
+.admin-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+  font-family: "Poppins", Arial, sans-serif;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-login-page::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(205, 169, 47, 0.08) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+}
+
+.admin-login-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  animation: loginCardEntry 0.6s ease;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes loginCardEntry {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.admin-login-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.admin-login-logo img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.admin-login-logo h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.admin-login-logo p {
+  color: #888;
+  font-size: 0.85rem;
+  margin: 6px 0 0;
+}
+
+.admin-login-form .form-group {
+  margin-bottom: 22px;
+}
+
+.admin-login-form .form-group label {
+  display: block;
+  color: #aaa;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.admin-login-form .form-group input {
+  width: 100%;
+  padding: 13px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.3s, background 0.3s;
+  box-sizing: border-box;
+}
+
+.admin-login-form .form-group input::placeholder {
+  color: #666;
+}
+
+.admin-login-form .form-group input:focus {
+  outline: none;
+  border-color: #cda92f;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-login-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #cda92f, #e6c846);
+  border: none;
+  border-radius: 10px;
+  color: #111;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 8px;
+}
+
+.admin-login-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(205, 169, 47, 0.3);
+}
+
+.admin-login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-login-error {
+  background: rgba(192, 57, 43, 0.15);
+  border: 1px solid rgba(192, 57, 43, 0.3);
+  color: #e74c3c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .admin-login-card {
+    padding: 36px 24px;
+  }
+}

@@ -55,14 +55,6 @@ const jobApplicationSchema = new mongoose.Schema(
       required: [true, "Please provide a cover letter"],
       maxlength: [2000, "Cover letter cannot exceed 2000 characters"],
     },
-    linkedinProfile: {
-      type: String,
-      trim: true,
-    },
-    portfolio: {
-      type: String,
-      trim: true,
-    },
     availability: {
       type: String,
       enum: [

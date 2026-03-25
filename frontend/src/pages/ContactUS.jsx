@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { api } from "../api/api";
 import "./ContactUs.css";
 import logo from "../assets/logo.png";
 
@@ -8,9 +8,13 @@ function ContactUs({ onBackToMenu }) {
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
   });
-  const [popup, setPopup] = useState({ show: false, message: "", type: "success" });
+  const [popup, setPopup] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,18 +24,35 @@ function ContactUs({ onBackToMenu }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/v1/inquiries", formData);
-      setPopup({ show: true, message: response.data?.message || "Message successfully sent!", type: "success" });
+      const response = await api.submitInquiry(formData);
+      setPopup({
+        show: true,
+        message: response.data?.message || "Message successfully sent!",
+        type: "success",
+      });
       setFormData({ name: "", email: "", phone: "", message: "" });
     } catch (error) {
-      setPopup({ show: true, message: error.response?.data?.message || "Failed to send message. Please try again.", type: "error" });
+      setPopup({
+        show: true,
+        message:
+          error.response?.data?.message ||
+          "Failed to send message. Please try again.",
+        type: "error",
+      });
     }
   };
 
   return (
     <div className="contactus-page">
       <header className="contactus-topbar">
-        <img src={logo} alt="Logo" className="contactus-logo" onClick={onBackToMenu} style={{ cursor: 'pointer' }} title="Back to Menu" />
+        <img
+          src={logo}
+          alt="Logo"
+          className="contactus-logo"
+          onClick={onBackToMenu}
+          style={{ cursor: "pointer" }}
+          title="Back to Menu"
+        />
 
         <button
           className="contactus-menu-btn"
@@ -50,13 +71,30 @@ function ContactUs({ onBackToMenu }) {
 
           <div className="contactus-grid">
             <label>Name</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
 
             <label>Email</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
             <label>Phone</label>
-            <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+            />
 
             <label>Message</label>
             <textarea
@@ -65,7 +103,7 @@ function ContactUs({ onBackToMenu }) {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              style={{ gridColumn: 'span 2' }}
+              style={{ gridColumn: "span 2" }}
               required
             />
           </div>
@@ -131,34 +169,67 @@ function ContactUs({ onBackToMenu }) {
       </footer>
 
       {popup.show && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
-        }}>
-          <div style={{
-            backgroundColor: '#fff', padding: '40px', borderRadius: '12px', maxWidth: '400px', width: '90%',
-            textAlign: 'center', boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
-          }}>
-            <h2 style={{
-              color: popup.type === 'success' ? '#28a745' : '#dc3545',
-              marginTop: 0, marginBottom: '15px'
-            }}>
-              {popup.type === 'success' ? 'Thank You!' : 'Oops!'}
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#fff",
+              padding: "40px",
+              borderRadius: "12px",
+              maxWidth: "400px",
+              width: "90%",
+              textAlign: "center",
+              boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+            }}
+          >
+            <h2
+              style={{
+                color: popup.type === "success" ? "#28a745" : "#dc3545",
+                marginTop: 0,
+                marginBottom: "15px",
+              }}
+            >
+              {popup.type === "success" ? "Thank You!" : "Oops!"}
             </h2>
-            <p style={{ fontSize: '16px', color: '#333', marginBottom: '25px', lineHeight: '1.5' }}>
+            <p
+              style={{
+                fontSize: "16px",
+                color: "#333",
+                marginBottom: "25px",
+                lineHeight: "1.5",
+              }}
+            >
               {popup.message}
             </p>
             <button
               onClick={() => {
-                setPopup({ show: false, message: '', type: 'success' });
-                if(popup.type === 'success' && onBackToMenu) onBackToMenu();
+                setPopup({ show: false, message: "", type: "success" });
+                if (popup.type === "success" && onBackToMenu) onBackToMenu();
               }}
               style={{
-                padding: '12px 24px', backgroundColor: '#00264d', color: '#fff', border: 'none',
-                borderRadius: '6px', cursor: 'pointer', fontSize: '15px', fontWeight: 'bold'
+                padding: "12px 24px",
+                backgroundColor: "#00264d",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                fontSize: "15px",
+                fontWeight: "bold",
               }}
             >
-              {popup.type === 'success' ? 'Back to Home' : 'Close Details'}
+              {popup.type === "success" ? "Back to Home" : "Close Details"}
             </button>
           </div>
         </div>

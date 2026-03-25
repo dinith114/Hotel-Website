@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import Rooms from "./pages/Rooms";
@@ -12,7 +13,22 @@ import Facilities from "./pages/Facilities";
 import Careers from "./pages/Careers";
 import ContactUs from "./pages/ContactUS";
 
-function App() {
+// Admin imports
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import BookingsManagement from "./pages/admin/BookingsManagement";
+import InquiriesManagement from "./pages/admin/InquiriesManagement";
+import MeetingEnquiriesManagement from "./pages/admin/MeetingEnquiriesManagement";
+import RoomsManagement from "./pages/admin/RoomsManagement";
+import OffersManagement from "./pages/admin/OffersManagement";
+import BlogsManagement from "./pages/admin/BlogsManagement";
+import CareersManagement from "./pages/admin/CareersManagement";
+import AdminsManagement from "./pages/admin/AdminsManagement";
+
+// Public site component (preserves existing state-based routing)
+function PublicSite() {
   const [currentPage, setCurrentPage] = useState("home");
   const [bookingCache, setBookingCache] = useState(null);
 
@@ -90,7 +106,7 @@ function App() {
         onBookingClick={() => setCurrentPage("booking")}
       />
     );
-  } // ✅ FIXED: properly closed this block
+  }
 
   if (currentPage === "meetings") {
     return (
@@ -124,6 +140,36 @@ function App() {
       onOpenMenu={() => setCurrentPage("menu")}
       onBookingClick={() => setCurrentPage("booking")}
     />
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      {/* Admin routes */}
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<AdminDashboard />} />
+        <Route path="bookings" element={<BookingsManagement />} />
+        <Route path="inquiries" element={<InquiriesManagement />} />
+        <Route path="meeting-enquiries" element={<MeetingEnquiriesManagement />} />
+        <Route path="rooms" element={<RoomsManagement />} />
+        <Route path="offers" element={<OffersManagement />} />
+        <Route path="blogs" element={<BlogsManagement />} />
+        <Route path="careers" element={<CareersManagement />} />
+        <Route path="admins" element={<AdminsManagement />} />
+      </Route>
+
+      {/* Public site - existing logic preserved */}
+      <Route path="*" element={<PublicSite />} />
+    </Routes>
   );
 }
 
