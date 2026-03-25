@@ -47,7 +47,7 @@ function VenueCard({ image, tags, featuresLeft, featuresRight }) {
   );
 }
 
-function Meetings({ onBackToMenu, onBookingClick }) {
+function Meetings({ onBackToMenu, onEnquiryClick }) {
   return (
     <div className="meetings-page">
       <section className="meetings-hero">
@@ -70,19 +70,6 @@ function Meetings({ onBackToMenu, onBookingClick }) {
         <div className="meetings-hero-content">
           <h1>Meetings</h1>
         </div>
-
-        <div className="meetings-booking-bar">
-          <div className="meetings-booking-item">📅 CHECK IN</div>
-          <div className="meetings-booking-item">📅 CHECK OUT</div>
-          <div className="meetings-booking-item">👥 GUESTS</div>
-          <button
-            className="meetings-book-now-btn"
-            type="button"
-            onClick={onBookingClick}
-          >
-            BOOK NOW
-          </button>
-        </div>
       </section>
 
       <section className="meetings-content">
@@ -90,7 +77,6 @@ function Meetings({ onBackToMenu, onBookingClick }) {
           <div className="meetings-intro-image-wrap">
             <img src={chair} alt="Meeting area" className="meetings-intro-image" />
           </div>
-
           <div className="meetings-intro-text">
             <p>
               Enjoy state-of-the-art facilities and services for your business
@@ -110,6 +96,14 @@ function Meetings({ onBackToMenu, onBookingClick }) {
               <li>Half Day Conference</li>
               <li>3 Hour Snack Meeting</li>
             </ul>
+
+            <button
+              type="button"
+              className="conference-enquiry-btn"
+              onClick={onEnquiryClick}
+            >
+              Enquiry Form
+            </button>
           </div>
 
           <div className="conference-right">

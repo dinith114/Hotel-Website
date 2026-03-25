@@ -42,18 +42,7 @@ function Colombo({ onBackToMenu, onBookingClick }) {
           <h1>Colombo</h1>
         </div>
 
-        <div className="colombo-booking-bar">
-          <div className="colombo-booking-item">📅 CHECK IN</div>
-          <div className="colombo-booking-item">📅 CHECK OUT</div>
-          <div className="colombo-booking-item">👥 GUESTS</div>
-          <button
-            className="colombo-book-now-btn"
-            type="button"
-            onClick={onBookingClick}
-          >
-            BOOK NOW
-          </button>
-        </div>
+       
       </section>
 
       <section className="colombo-content">

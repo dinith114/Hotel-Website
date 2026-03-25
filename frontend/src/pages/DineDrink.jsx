@@ -31,18 +31,7 @@ function DineDrink({ onBackToMenu, onBookingClick }) {
           <h1>Dine &amp; Drink</h1>
         </div>
 
-        <div className="dine-booking-bar">
-          <div className="dine-booking-item">📅 CHECK IN</div>
-          <div className="dine-booking-item">📅 CHECK OUT</div>
-          <div className="dine-booking-item">👥 GUESTS</div>
-          <button
-            className="dine-book-now-btn"
-            type="button"
-            onClick={onBookingClick}
-          >
-            BOOK NOW
-          </button>
-        </div>
+    
       </section>
 
       <section className="dine-content">

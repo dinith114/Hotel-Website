@@ -26,18 +26,6 @@ function Careers({ onBackToMenu, onBookingClick }) {
           <h1>Careers</h1>
         </div>
 
-        <div className="careers-booking-bar">
-          <div className="careers-booking-item">📅 CHECK IN</div>
-          <div className="careers-booking-item">📅 CHECK OUT</div>
-          <div className="careers-booking-item">👥 GUESTS</div>
-          <button
-            className="careers-book-now-btn"
-            type="button"
-            onClick={onBookingClick}
-          >
-            BOOK NOW
-          </button>
-        </div>
       </section>
 
       <section className="careers-content">

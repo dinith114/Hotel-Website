@@ -77,18 +77,6 @@ function Facilities({ onBackToMenu, onBookingClick }) {
           <h1>Facility</h1>
         </div>
 
-        <div className="facilities-booking-bar">
-          <div className="facilities-booking-item">📅 CHECK IN</div>
-          <div className="facilities-booking-item">📅 CHECK OUT</div>
-          <div className="facilities-booking-item">👥 GUESTS</div>
-          <button
-            className="facilities-book-now-btn"
-            type="button"
-            onClick={onBookingClick}
-          >
-            BOOK NOW
-          </button>
-        </div>
       </section>
 
       <section className="facilities-content">

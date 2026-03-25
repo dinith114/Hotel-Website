@@ -102,6 +102,7 @@ function App() {
       <Meetings
         onBackToMenu={() => setCurrentPage("menu")}
         onBookingClick={() => setCurrentPage("booking")}
+        onEnquiryClick={()=> setCurrentPage("enquiry")}
       />
     );
   }
