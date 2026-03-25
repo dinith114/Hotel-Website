@@ -80,7 +80,7 @@
   transform: translateX(-50%);
   width: min(86%, 900px);
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   z-index: 4;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
 }

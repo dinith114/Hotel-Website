@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Poppins", Arial, sans-serif;
   background: #f4f3ef;
   color: #111;
 }
@@ -64,6 +64,7 @@ body {
   font-size: 28px;
   cursor: pointer;
   z-index: 3;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .hero-content {
@@ -81,7 +82,7 @@ body {
 .hero-subtitle {
   font-size: 2rem;
   margin: 0 0 18px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   font-weight: 300;
 }
 
@@ -89,7 +90,8 @@ body {
   margin: 0;
   font-size: clamp(2.5rem, 7vw, 5rem);
   letter-spacing: 2px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .booking-bar {
@@ -111,7 +113,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
 }
@@ -157,7 +159,7 @@ body {
 
 .intro-card p {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -214,7 +216,8 @@ body {
   margin: 0 0 18px;
   font-size: clamp(2rem, 3.6vw, 3.1rem);
   line-height: 1.2;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .section-content.small-text h2 {
@@ -230,6 +233,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: 0.3s ease;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .section-content button:hover {
@@ -260,7 +264,7 @@ body {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr;
   gap: 30px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .footer-logo {
@@ -278,6 +282,7 @@ body {
   font-size: 0.84rem;
   line-height: 1.9;
   color: #d7d7d7;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
 .footer-brand li {
