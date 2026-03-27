@@ -83,7 +83,7 @@ function Rooms() {
   const [checkIn, setCheckIn] = useState(searchDefaults.checkIn || "");
   const [checkOut, setCheckOut] = useState(searchDefaults.checkOut || "");
   const [adults, setAdults] = useState(
-    searchDefaults.adults || Number(searchDefaults.guests) || 1
+    searchDefaults.adults || Number(searchDefaults.guests) || 1,
   );
   const [children, setChildren] = useState(searchDefaults.children || 0);
   const [roomCount, setRoomCount] = useState(searchDefaults.roomCount || 1);
@@ -188,7 +188,18 @@ function Rooms() {
 
   const getAvailableCount = (roomType) => {
     if (!checkIn || !checkOut) return undefined;
-    const roomInfo = availability.find((r) => r.roomType === roomType);
+
+    const normalizeRoomType = (value) =>
+      String(value || "")
+        .toLowerCase()
+        .trim()
+        .replace(/\s+room$/, "");
+
+    const targetRoomType = normalizeRoomType(roomType);
+    const roomInfo = availability.find(
+      (r) => normalizeRoomType(r.roomType) === targetRoomType,
+    );
+
     return roomInfo ? roomInfo.availableRooms : undefined;
   };
 
