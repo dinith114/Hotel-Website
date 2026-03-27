@@ -35,6 +35,9 @@ export const inquiriesApi = {
 // ─── Meeting Enquiries ───────────────────────────
 export const meetingEnquiriesApi = {
   getAll: () => adminApi.get("/meeting-enquiries"),
+  updateStatus: (id, data) =>
+    adminApi.put(`/meeting-enquiries/${id}/status`, data),
+  delete: (id) => adminApi.delete(`/meeting-enquiries/${id}`),
 };
 
 // ─── Rooms ───────────────────────────────────────

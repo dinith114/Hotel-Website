@@ -84,8 +84,11 @@ function AdminDashboard() {
           inquiriesRes.status === "fulfilled"
             ? inquiriesRes.value.data.data
             : [];
-        const meetings =
+        const meetingsPayload =
           meetingRes.status === "fulfilled" ? meetingRes.value.data.data : [];
+        const meetings = Array.isArray(meetingsPayload)
+          ? meetingsPayload
+          : meetingsPayload?.data || [];
         const rooms =
           roomsRes.status === "fulfilled" ? roomsRes.value.data.data : [];
         const offerStats =
