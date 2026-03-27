@@ -13,7 +13,19 @@ const roomSelectionSchema = new mongoose.Schema({
         required: [true, 'Please specify a meal plan'],
         enum: ['Bed and Breakfast', 'Room Only', 'Half Board', 'Full Board']
     },
-    guests: {
+    adults: {
+        type: Number,
+        required: true,
+        min: 1,
+        default: 1
+    },
+    children: {
+        type: Number,
+        required: true,
+        min: 0,
+        default: 0
+    },
+    roomCount: {
         type: Number,
         required: true,
         min: 1,

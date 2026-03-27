@@ -41,7 +41,7 @@ exports.checkAvailability = async (req, res, next) => {
             if (booking.rooms && booking.rooms.length > 0) {
                 booking.rooms.forEach(room => {
                     if (bookedRoomCounts[room.roomType] !== undefined) {
-                        bookedRoomCounts[room.roomType] += 1;
+                        bookedRoomCounts[room.roomType] += room.roomCount || 1;
                     }
                 });
             }
@@ -90,53 +90,74 @@ exports.createBooking = async (req, res, next) => {
             return res.status(400).json({ success: false, message: 'Check-out date must be after check-in date' });
         }
 
-        const booking = await Booking.create(req.body);
-
-        // --- EMAIL AUTOMATION ---
-        try {
-            // 1. Send Beautiful HTML Email to the Guest
-            const guestMessage = `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-                    <h2 style="color: #4CAF50; text-align: center;">Booking Request Received!</h2>
-                    <p>Dear ${booking.firstName} ${booking.lastName},</p>
-                    <p>We have successfully received your booking request for the dates <strong>${new Date(booking.checkInDate).toDateString()}</strong> to <strong>${new Date(booking.checkOutDate).toDateString()}</strong>.</p>
-                    <p>Our reception team is currently reviewing availability and will contact you shortly to confirm your reservation and arrange payment.</p>
-                    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-                    <p style="font-size: 12px; color: #888; text-align: center;">Thank you for choosing our Hotel!</p>
-                </div>
-            `;
-
-            await sendEmail({
-                email: booking.email, // Send to the person who filled the form
-                subject: 'Your Booking Request is Received - Hotel Team',
-                message: guestMessage
+        if (!req.body.rooms || req.body.rooms.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please select at least one room'
             });
-            
-            // 2. Send Alert Email to the Hotel Admin/Reception Desk
-            const adminMessage = `
-                <div style="font-family: Arial, sans-serif; border-left: 4px solid #ff9800; padding-left: 15px;">
-                    <h2>🚨 New Booking Request Alert</h2>
-                    <p><strong>Guest Name:</strong> ${booking.firstName} ${booking.lastName}</p>
-                    <p><strong>Email:</strong> ${booking.email} | <strong>Phone:</strong> ${booking.phone}</p>
-                    <p><strong>Check-In:</strong> ${new Date(booking.checkInDate).toDateString()}</p>
-                    <p><strong>Check-Out:</strong> ${new Date(booking.checkOutDate).toDateString()}</p>
-                    <p><strong>Special Remarks:</strong> ${booking.specialRemarks || 'None'}</p>
-                    <p>Please log into the Admin Dashboard to Review and Confirm this booking.</p>
-                </div>
-            `;
-
-            await sendEmail({
-                email: process.env.SMTP_EMAIL, // Send to the Hotel's own inbox
-                subject: `NEW BOOKING ALERT: ${booking.firstName} ${booking.lastName}`,
-                message: adminMessage
-            });
-
-        } catch (err) {
-            console.error('Email could not be sent:', err);
-            // Notice: Even if email fails, we don't crash. We still save the booking!
         }
 
-        sendSuccess(res, booking, 'Booking request submitted successfully. We will contact you soon!', 201);
+        const firstRoom = req.body.rooms[0];
+        if (!firstRoom || firstRoom.adults < 1 || firstRoom.roomCount < 1 || firstRoom.children < 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide valid guest and room details'
+            });
+        }
+
+            //the place where the frontend form data receives
+        const booking = await Booking.create(req.body);
+
+        // Send response first
+        sendSuccess(
+            res,
+            booking,
+            'Booking request submitted successfully. We will contact you soon!',
+            201
+        );
+
+        // Then send emails in background
+        setImmediate(async () => {
+            try {
+                const guestMessage = `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+                        <h2 style="color: #4CAF50; text-align: center;">Booking Request Received!</h2>
+                        <p>Dear ${booking.firstName} ${booking.lastName},</p>
+                        <p>We have successfully received your booking request for the dates <strong>${new Date(booking.checkInDate).toDateString()}</strong> to <strong>${new Date(booking.checkOutDate).toDateString()}</strong>.</p>
+                        <p>Our reception team is currently reviewing availability and will contact you shortly to confirm your reservation and arrange payment.</p>
+                        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                        <p style="font-size: 12px; color: #888; text-align: center;">Thank you for choosing our Hotel!</p>
+                    </div>
+                `;
+
+                await sendEmail({
+                    email: booking.email,
+                    subject: 'Your Booking Request is Received - Hotel Team',
+                    message: guestMessage
+                });
+
+                const adminMessage = `
+                    <div style="font-family: Arial, sans-serif; border-left: 4px solid #ff9800; padding-left: 15px;">
+                        <h2>🚨 New Booking Request Alert</h2>
+                        <p><strong>Guest Name:</strong> ${booking.firstName} ${booking.lastName}</p>
+                        <p><strong>Email:</strong> ${booking.email} | <strong>Phone:</strong> ${booking.phone}</p>
+                        <p><strong>Check-In:</strong> ${new Date(booking.checkInDate).toDateString()}</p>
+                        <p><strong>Check-Out:</strong> ${new Date(booking.checkOutDate).toDateString()}</p>
+                        <p><strong>Special Remarks:</strong> ${booking.specialRemarks || 'None'}</p>
+                        <p>Please log into the Admin Dashboard to Review and Confirm this booking.</p>
+                    </div>
+                `;
+
+                await sendEmail({
+                    email: process.env.SMTP_EMAIL,
+                    subject: `NEW BOOKING ALERT: ${booking.firstName} ${booking.lastName}`,
+                    message: adminMessage
+                });
+            } catch (err) {
+                console.error('Background email sending failed:', err);
+            }
+        });
+
     } catch (error) {
         next(error);
     }

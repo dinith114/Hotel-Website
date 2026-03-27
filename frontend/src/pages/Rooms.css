@@ -264,3 +264,28 @@
     font-size: 2.7rem;
   }
 }
+
+.rooms-guest-trigger {
+  width: 100%;
+  margin-top: 4px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  color: #111;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.rooms-guest-popup {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 320px;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+  padding: 16px;
+  z-index: 30;
+}

@@ -17,6 +17,8 @@ function Booking() {
     type: "success",
   });
 
+  const [guestPopupOpen, setGuestPopupOpen] = useState(false);
+
   const today = new Date().toISOString().split("T")[0];
 
   const getTomorrow = (dateString) => {
@@ -42,10 +44,31 @@ function Booking() {
       {
         roomType: prefilledData?.roomType || "Standard",
         mealPlan: "Bed and Breakfast",
-        guests: prefilledData?.guests || 1,
+        adults: prefilledData?.adults || Number(prefilledData?.guests) || 1,
+        children: prefilledData?.children || 0,
+        roomCount: prefilledData?.roomCount || 1,
       },
     ],
   });
+
+  const guestSummary = `${formData.rooms[0].adults} adult${formData.rooms[0].adults > 1 ? "s" : ""} · ${formData.rooms[0].children} children · ${formData.rooms[0].roomCount} room${formData.rooms[0].roomCount > 1 ? "s" : ""}`;
+
+  const updateGuestField = (field, delta) => {
+    setFormData((prev) => {
+      const updatedRooms = [...prev.rooms];
+      const currentValue = updatedRooms[0][field];
+
+      let minValue = 0;
+      if (field === "adults" || field === "roomCount") minValue = 1;
+
+      updatedRooms[0][field] = Math.max(minValue, currentValue + delta);
+
+      return {
+        ...prev,
+        rooms: updatedRooms,
+      };
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,7 +90,10 @@ function Booking() {
   const handleRoomChange = (e) => {
     const { name, value } = e.target;
     const updatedRooms = [...formData.rooms];
-    updatedRooms[0][name] = name === "guests" ? Number(value) : value;
+    updatedRooms[0][name] =
+      name === "adults" || name === "children" || name === "roomCount"
+        ? Number(value)
+        : value;
     setFormData({ ...formData, rooms: updatedRooms });
   };
 
@@ -131,200 +157,237 @@ function Booking() {
         </button>
       </header>
 
-    <PageBackground overlayOpacity={0.22}>
-      <main className="booking-main">
-        <form className="booking-panel" onSubmit={handleSubmit}>
-          <h2>Contact Details</h2>
+      <PageBackground overlayOpacity={0.22}>
+        <main className="booking-main">
+          <form className="booking-panel" onSubmit={handleSubmit}>
+            <h2>Contact Details</h2>
 
-          <div className="booking-form-grid">
-            <label>Name</label>
-            <div className="row two">
-              <input
-                name="firstName"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-              />
-              <input
-                name="lastName"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <label>Mobile Phone</label>
-            <div className="row one">
-              <input
-                name="phone"
-                placeholder="+country phone number"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <label>Email</label>
-            <div className="row one">
-              <input
-                name="email"
-                type="email"
-                placeholder="example@example.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <label>Country</label>
-            <div className="row one">
-              <select
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-              >
-                <option>Sri Lanka</option>
-                <option>USA</option>
-                <option>UK</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-            <label>Arrival Time (e.g. 02:30 PM)</label>
-            <div className="row one arrival-row">
-              <input
-                name="arrivalTime"
-                placeholder="02:30 PM"
-                value={formData.arrivalTime}
-                onChange={handleChange}
-              />
-            </div>
-
-            <label>Special Remarks</label>
-            <div className="row one">
-              <textarea
-                name="specialRemarks"
-                rows="4"
-                value={formData.specialRemarks}
-                onChange={handleChange}
-              ></textarea>
-            </div>
-          </div>
-
-          <h2>Booking Details</h2>
-
-          <div className="booking-box">
-            <div className="booking-box-row">
-              <label>Check-in</label>
-              <input
-                type="date"
-                name="checkInDate"
-                min={today}
-                value={formData.checkInDate}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="booking-box-row">
-              <label>Check-out</label>
-              <input
-                type="date"
-                name="checkOutDate"
-                min={
-                  formData.checkInDate
-                    ? getTomorrow(formData.checkInDate)
-                    : today
-                }
-                value={formData.checkOutDate}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="booking-box">
-            <p className="box-title">Select Preferred Room & Meal</p>
-
-            <div className="booking-box-row two-cols">
-              <div>
-                <label>Rooms</label>
-                <select
-                  name="roomType"
-                  value={formData.rooms[0].roomType}
-                  onChange={handleRoomChange}
-                >
-                  <option value="Super Deluxe">Super Deluxe Room</option>
-                  <option value="Deluxe">Deluxe Room</option>
-                  <option value="Standard">Standard Room</option>
-                </select>
-              </div>
-              <div>
-                <label>Meal Plan</label>
-                <select
-                  name="mealPlan"
-                  value={formData.rooms[0].mealPlan}
-                  onChange={handleRoomChange}
-                >
-                  <option value="Bed and Breakfast">Breakfast</option>
-                  <option value="Half Board">Half Board</option>
-                  <option value="Full Board">Full Board</option>
-                  <option value="Room Only">Room Only</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="booking-box-row two-cols">
-              <div>
-                <label>Guests</label>
+            <div className="booking-form-grid">
+              <label>Name</label>
+              <div className="row two">
                 <input
-                  type="number"
-                  name="guests"
-                  min="1"
-                  placeholder="1"
-                  value={formData.rooms[0].guests}
-                  onChange={handleRoomChange}
+                  name="firstName"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  name="lastName"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <label>Mobile Phone</label>
+              <div className="row one">
+                <input
+                  name="phone"
+                  placeholder="+country phone number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <label>Email</label>
+              <div className="row one">
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="example@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <label>Country</label>
+              <div className="row one">
+                <select
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                >
+                  <option>Sri Lanka</option>
+                  <option>USA</option>
+                  <option>UK</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <label>Arrival Time (e.g. 02:30 PM)</label>
+              <div className="row one arrival-row">
+                <input
+                  name="arrivalTime"
+                  placeholder="02:30 PM"
+                  value={formData.arrivalTime}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <label>Special Remarks</label>
+              <div className="row one">
+                <textarea
+                  name="specialRemarks"
+                  rows="4"
+                  value={formData.specialRemarks}
+                  onChange={handleChange}
+                ></textarea>
+              </div>
+            </div>
+
+            <h2>Booking Details</h2>
+
+            <div className="booking-box">
+              <div className="booking-box-row">
+                <label>Check-in</label>
+                <input
+                  type="date"
+                  name="checkInDate"
+                  min={today}
+                  value={formData.checkInDate}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="booking-box-row">
+                <label>Check-out</label>
+                <input
+                  type="date"
+                  name="checkOutDate"
+                  min={
+                    formData.checkInDate
+                      ? getTomorrow(formData.checkInDate)
+                      : today
+                  }
+                  value={formData.checkOutDate}
+                  onChange={handleChange}
                   required
                 />
               </div>
             </div>
-          </div>
 
-          <div className="booking-box">
-            <div className="booking-box-row">
-              <label>Airport Pickup</label>
-              <select
-                name="airportPickup"
-                value={formData.airportPickup}
-                onChange={handleChange}
-              >
-                <option>No</option>
-                <option>Yes</option>
-              </select>
+            <div className="booking-box">
+              <p className="box-title">Select Preferred Room & Meal</p>
+
+              <div className="booking-box-row two-cols">
+                <div>
+                  <label>Rooms</label>
+                  <select
+                    name="roomType"
+                    value={formData.rooms[0].roomType}
+                    onChange={handleRoomChange}
+                  >
+                    <option value="Super Deluxe">Super Deluxe Room</option>
+                    <option value="Deluxe">Deluxe Room</option>
+                    <option value="Standard">Standard Room</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Meal Plan</label>
+                  <select
+                    name="mealPlan"
+                    value={formData.rooms[0].mealPlan}
+                    onChange={handleRoomChange}
+                  >
+                    <option value="Bed and Breakfast">Breakfast</option>
+                    <option value="Half Board">Half Board</option>
+                    <option value="Full Board">Full Board</option>
+                    <option value="Room Only">Room Only</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="booking-box-row">
+                <label>Guests & Rooms</label>
+                <div className="guest-selector-wrapper">
+                  <button
+                    type="button"
+                    className="guest-selector-trigger"
+                    onClick={() => setGuestPopupOpen((prev) => !prev)}
+                  >
+                    {guestSummary}
+                  </button>
+
+                  {guestPopupOpen && (
+                    <div className="guest-selector-popup">
+                      <div className="guest-row">
+                        <span>Adults</span>
+                        <div className="guest-counter">
+                          <button type="button" onClick={() => updateGuestField("adults", -1)}>-</button>
+                          <span>{formData.rooms[0].adults}</span>
+                          <button type="button" onClick={() => updateGuestField("adults", 1)}>+</button>
+                        </div>
+                      </div>
+
+                      <div className="guest-row">
+                        <span>Children</span>
+                        <div className="guest-counter">
+                          <button type="button" onClick={() => updateGuestField("children", -1)}>-</button>
+                          <span>{formData.rooms[0].children}</span>
+                          <button type="button" onClick={() => updateGuestField("children", 1)}>+</button>
+                        </div>
+                      </div>
+
+                      <div className="guest-row">
+                        <span>Rooms</span>
+                        <div className="guest-counter">
+                          <button type="button" onClick={() => updateGuestField("roomCount", -1)}>-</button>
+                          <span>{formData.rooms[0].roomCount}</span>
+                          <button type="button" onClick={() => updateGuestField("roomCount", 1)}>+</button>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="guest-done-btn"
+                        onClick={() => setGuestPopupOpen(false)}
+                      >
+                        Done
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
-            <div className="booking-box-row">
-              <label>Airport Drop</label>
-              <select
-                name="airportDrop"
-                value={formData.airportDrop}
-                onChange={handleChange}
-              >
-                <option>No</option>
-                <option>Yes</option>
-              </select>
-            </div>
-          </div>
+            <div className="booking-box">
+              <div className="booking-box-row">
+                <label>Airport Pickup</label>
+                <select
+                  name="airportPickup"
+                  value={formData.airportPickup}
+                  onChange={handleChange}
+                >
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </div>
 
-          <div className="submit-wrap">
-            <button className="submit-booking-btn" type="submit">
-              SUBMIT YOUR RESERVATION
-            </button>
-          </div>
-        </form>
-      </main>
+              <div className="booking-box-row">
+                <label>Airport Drop</label>
+                <select
+                  name="airportDrop"
+                  value={formData.airportDrop}
+                  onChange={handleChange}
+                >
+                  <option>No</option>
+                  <option>Yes</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="submit-wrap">
+              <button className="submit-booking-btn" type="submit">
+                SUBMIT YOUR RESERVATION
+              </button>
+            </div>
+          </form>
+        </main>
       </PageBackground>
 
       <Footer />

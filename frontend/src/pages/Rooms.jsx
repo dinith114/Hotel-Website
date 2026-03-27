@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { api } from "../api/api";
 import "./Rooms.css";
@@ -79,10 +79,19 @@ function Rooms() {
   const navigate = useNavigate();
   const location = useLocation();
   const searchDefaults = location.state || {};
+
   const [checkIn, setCheckIn] = useState(searchDefaults.checkIn || "");
   const [checkOut, setCheckOut] = useState(searchDefaults.checkOut || "");
-  const [guests, setGuests] = useState(searchDefaults.guests || 1);
+  const [adults, setAdults] = useState(
+    searchDefaults.adults || Number(searchDefaults.guests) || 1
+  );
+  const [children, setChildren] = useState(searchDefaults.children || 0);
+  const [roomCount, setRoomCount] = useState(searchDefaults.roomCount || 1);
+  const [guestPopupOpen, setGuestPopupOpen] = useState(false);
+  const [guestSelectionStarted, setGuestSelectionStarted] = useState(false);
   const [availability, setAvailability] = useState([]);
+
+  const guestPopupRef = useRef(null);
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -97,9 +106,34 @@ function Rooms() {
     if (searchDefaults) {
       if (searchDefaults.checkIn) setCheckIn(searchDefaults.checkIn);
       if (searchDefaults.checkOut) setCheckOut(searchDefaults.checkOut);
-      if (searchDefaults.guests) setGuests(searchDefaults.guests);
+      if (searchDefaults.adults) setAdults(searchDefaults.adults);
+      if (searchDefaults.children !== undefined)
+        setChildren(searchDefaults.children);
+      if (searchDefaults.roomCount) setRoomCount(searchDefaults.roomCount);
+      if (searchDefaults.guests && !searchDefaults.adults) {
+        setAdults(Number(searchDefaults.guests));
+      }
     }
   }, [searchDefaults]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        guestPopupRef.current &&
+        !guestPopupRef.current.contains(event.target)
+      ) {
+        setGuestPopupOpen(false);
+      }
+    };
+
+    if (guestPopupOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [guestPopupOpen]);
 
   useEffect(() => {
     const fetchAvailability = async () => {
@@ -120,10 +154,35 @@ function Rooms() {
     fetchAvailability();
   }, [checkIn, checkOut]);
 
+  const guestSummary = guestSelectionStarted
+    ? `${adults} adult${adults > 1 ? "s" : ""} · ${children} children · ${roomCount} room${roomCount > 1 ? "s" : ""}`
+    : "Guests";
+
+  const updateGuestField = (field, delta) => {
+    setGuestSelectionStarted(true);
+
+    if (field === "adults") {
+      setAdults((prev) => Math.max(1, prev + delta));
+    }
+    if (field === "children") {
+      setChildren((prev) => Math.max(0, prev + delta));
+    }
+    if (field === "roomCount") {
+      setRoomCount((prev) => Math.max(1, prev + delta));
+    }
+  };
+
   const handleRoomBookClick = (roomTypeTitle) => {
     const cleanRoomType = roomTypeTitle.replace(" Room", "");
     navigate("/booking", {
-      state: { roomType: cleanRoomType, checkIn, checkOut, guests },
+      state: {
+        roomType: cleanRoomType,
+        checkIn,
+        checkOut,
+        adults,
+        children,
+        roomCount,
+      },
     });
   };
 
@@ -243,12 +302,14 @@ function Rooms() {
           </div>
 
           <div
-            className="rooms-booking-item"
+            ref={guestPopupRef}
+            className="rooms-booking-item guest-booking-item"
             style={{
               flexDirection: "column",
               alignItems: "flex-start",
               padding: "0 20px",
               justifyContent: "center",
+              position: "relative",
             }}
           >
             <span
@@ -261,23 +322,83 @@ function Rooms() {
             >
               GUESTS
             </span>
-            <input
-              type="number"
-              min="1"
-              value={guests}
-              onChange={(e) => setGuests(e.target.value)}
-              style={{
-                padding: "0",
-                border: "none",
-                outline: "none",
-                background: "transparent",
-                color: "#111",
-                fontSize: "1rem",
-                width: "100%",
-                cursor: "pointer",
-                marginTop: "4px",
-              }}
-            />
+
+            <button
+              type="button"
+              className="rooms-guest-trigger"
+              onClick={() => setGuestPopupOpen((prev) => !prev)}
+            >
+              {guestSummary}
+            </button>
+
+            {guestPopupOpen && (
+              <div className="rooms-guest-popup">
+                <div className="guest-row">
+                  <span>Adults</span>
+                  <div className="guest-counter">
+                    <button
+                      type="button"
+                      onClick={() => updateGuestField("adults", -1)}
+                    >
+                      -
+                    </button>
+                    <span>{adults}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateGuestField("adults", 1)}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="guest-row">
+                  <span>Children</span>
+                  <div className="guest-counter">
+                    <button
+                      type="button"
+                      onClick={() => updateGuestField("children", -1)}
+                    >
+                      -
+                    </button>
+                    <span>{children}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateGuestField("children", 1)}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="guest-row">
+                  <span>Rooms</span>
+                  <div className="guest-counter">
+                    <button
+                      type="button"
+                      onClick={() => updateGuestField("roomCount", -1)}
+                    >
+                      -
+                    </button>
+                    <span>{roomCount}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateGuestField("roomCount", 1)}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="guest-done-btn"
+                  onClick={() => setGuestPopupOpen(false)}
+                >
+                  Done
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
