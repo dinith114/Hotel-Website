@@ -18,7 +18,7 @@ function SectionCard({
       <div className={`section-content ${smallText ? "small-text" : ""}`}>
         <h2>{title}</h2>
         {showButton && (
-          <button type="button" onClick={onButtonClick}>
+          <button type="button" className="section-btn" onClick={onButtonClick}>
             {buttonText}
           </button>
         )}

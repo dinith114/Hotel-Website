@@ -1,8 +1,47 @@
-.ourstory-page {
-  background: #f5f5f3;
-  min-height: 100vh;
+:root {
+  --ourstory-bg: #f5f5f3;
+  --ourstory-white: #ffffff;
+  --ourstory-black: #111111;
+  --ourstory-text: #202020;
+  --ourstory-muted: #3d3d3d;
+  --ourstory-gold: #d4af37;
+  --ourstory-gold-dark: #b78b1e;
+  --ourstory-line: rgba(17, 17, 17, 0.08);
+  --ourstory-shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --ourstory-shadow-card: 0 18px 44px rgba(0, 0, 0, 0.12);
+  --ourstory-ease: all 0.3s ease;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--ourstory-bg);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.ourstory-page {
+  background: var(--ourstory-bg);
+  min-height: 100vh;
+  color: var(--ourstory-text);
+}
+
+/* HERO */
 .ourstory-hero {
   position: relative;
   height: 78vh;
@@ -14,12 +53,19 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.03);
+  animation: ourstoryHeroZoom 10s ease-out forwards;
 }
 
 .ourstory-hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.18),
+    rgba(0, 0, 0, 0.26),
+    rgba(0, 0, 0, 0.42)
+  );
 }
 
 .ourstory-top-bar {
@@ -37,16 +83,24 @@
 .ourstory-logo {
   width: 78px;
   height: auto;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
 }
 
 .ourstory-menu-btn {
-  background: rgba(0, 0, 0, 0.45);
-  color: #fff;
   border: none;
-  font-size: 34px;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   cursor: pointer;
+  border-radius: 16px;
+  color: #111;
+  font-size: 28px;
+  background: linear-gradient(135deg, #e2c661 0%, #d4af37 50%, #b88b13 100%);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  transition: var(--ourstory-ease);
+}
+
+.ourstory-menu-btn:hover {
+  transform: scale(1.06);
 }
 
 .ourstory-hero-content {
@@ -61,7 +115,8 @@
   font-size: 15px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .ourstory-hero-content h1 {
@@ -69,11 +124,13 @@
   font-weight: 300;
   margin: 0;
   line-height: 1;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.26);
 }
 
+/* STORY SECTIONS */
 .ourstory-section {
   padding: 80px 60px;
-  background: #f5f5f3;
+  background: var(--ourstory-bg);
 }
 
 .ourstory-section.alt {
@@ -83,10 +140,19 @@
 .ourstory-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  gap: 34px;
   align-items: center;
   max-width: 1320px;
   margin: 0 auto;
+  padding: 22px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--ourstory-line);
+  box-shadow: var(--ourstory-shadow-soft);
+}
+
+.ourstory-section.alt .ourstory-grid {
+  background: rgba(245, 245, 243, 0.78);
 }
 
 .ourstory-grid.reverse .ourstory-image-wrap {
@@ -99,29 +165,44 @@
 
 .ourstory-image-wrap {
   width: 100%;
+  overflow: hidden;
+  border-radius: 24px;
 }
 
 .ourstory-image {
   width: 100%;
   height: 520px;
   object-fit: cover;
-  display: block;
+  transition: transform 0.7s ease;
+}
+
+.ourstory-grid:hover .ourstory-image {
+  transform: scale(1.04);
+}
+
+.ourstory-text {
+  padding: 10px 8px;
 }
 
 .ourstory-text h2 {
   font-size: 42px;
-  margin-bottom: 20px;
-  color: #202020;
+  margin: 0 0 20px;
+  color: var(--ourstory-text);
   font-weight: 400;
 }
 
 .ourstory-text p {
   font-size: 19px;
   line-height: 1.9;
-  color: #3d3d3d;
-  margin-bottom: 24px;
+  color: var(--ourstory-muted);
+  margin: 0 0 24px;
 }
 
+.ourstory-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* MILESTONES */
 .milestone-section {
   padding: 80px 60px;
   background: #111111;
@@ -131,7 +212,7 @@
 .milestone-section h2 {
   text-align: center;
   font-size: 42px;
-  margin-bottom: 40px;
+  margin: 0 0 40px;
   font-weight: 400;
 }
 
@@ -144,28 +225,37 @@
 }
 
 .milestone-card {
-  background: #1b1b1b;
+  background: linear-gradient(180deg, #1b1b1b 0%, #161616 100%);
   padding: 28px;
-  border-left: 4px solid #d4af37;
+  border-left: 4px solid var(--ourstory-gold);
+  border-radius: 18px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+  transition: var(--ourstory-ease);
+}
+
+.milestone-card:hover {
+  transform: translateY(-4px);
 }
 
 .milestone-card .year {
   display: block;
   font-size: 28px;
   font-weight: 600;
-  color: #d4af37;
+  color: var(--ourstory-gold);
   margin-bottom: 12px;
 }
 
 .milestone-card p {
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.8;
   margin: 0;
+  color: #e5e5e5;
 }
 
+/* DIRECTORS */
 .directors-section {
   padding: 90px 60px;
-  background: #f5f5f3;
+  background: var(--ourstory-bg);
 }
 
 .section-heading {
@@ -176,8 +266,8 @@
 .section-heading p {
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #b78b1e;
-  margin-bottom: 10px;
+  color: var(--ourstory-gold-dark);
+  margin: 0 0 10px;
   font-size: 14px;
 }
 
@@ -185,7 +275,7 @@
   font-size: 42px;
   margin: 0;
   font-weight: 400;
-  color: #202020;
+  color: var(--ourstory-text);
 }
 
 .directors-grid {
@@ -199,8 +289,16 @@
 .director-card {
   background: #fff;
   padding: 26px 24px;
-  border-bottom: 3px solid #d4af37;
-  min-height: 170px;
+  border-radius: 22px;
+  border-bottom: 3px solid var(--ourstory-gold);
+  min-height: 190px;
+  box-shadow: var(--ourstory-shadow-soft);
+  transition: var(--ourstory-ease);
+}
+
+.director-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ourstory-shadow-card);
 }
 
 .director-card h3 {
@@ -208,6 +306,7 @@
   font-size: 28px;
   font-weight: 500;
   color: #1e1e1e;
+  line-height: 1.25;
 }
 
 .director-card p {
@@ -217,6 +316,17 @@
   color: #444;
 }
 
+/* ANIMATION */
+@keyframes ourstoryHeroZoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1.03);
+  }
+}
+
+/* RESPONSIVE */
 @media (max-width: 1100px) {
   .ourstory-grid,
   .milestone-grid,
@@ -274,5 +384,15 @@
   .ourstory-text p,
   .director-card p {
     font-size: 16px;
+  }
+
+  .ourstory-top-bar {
+    padding: 18px 18px;
+  }
+
+  .ourstory-menu-btn {
+    width: 46px;
+    height: 46px;
+    font-size: 24px;
   }
 }

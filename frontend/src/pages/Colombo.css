@@ -1,14 +1,28 @@
-* {
+:root {
+  --bg: #f4f3ef;
+  --gold: #d4af37;
+  --text: #111;
+  --muted: #555;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 12px 28px rgba(0, 0, 0, 0.18);
+  --ease: all 0.3s ease;
+}
+
+/* ===== RESET ===== */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 .colombo-page {
   width: 100%;
-  background: #f4f3ef;
-  color: #111;
+  background: var(--bg);
+  color: var(--text);
   overflow-x: hidden;
 }
 
+/* ===== HERO ===== */
 .colombo-hero {
   position: relative;
   width: 100%;
@@ -20,6 +34,7 @@
   height: 100vh;
   object-fit: cover;
   display: block;
+  animation: heroZoom 10s ease-out forwards;
 }
 
 .colombo-hero-overlay {
@@ -28,11 +43,12 @@
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0.12),
-    rgba(0, 0, 0, 0.04),
-    rgba(0, 0, 0, 0.1)
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.12)
   );
 }
 
+/* ===== TOP BAR ===== */
 .colombo-top-bar {
   position: absolute;
   top: 18px;
@@ -48,78 +64,51 @@
   width: 78px;
   height: 78px;
   object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.2));
 }
 
 .colombo-menu-btn {
-  width: 34px;
-  height: 34px;
-  background: transparent;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
   border: none;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
   color: #111;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
-  font-family: "Poppins", Arial, sans-serif;
+  transition: var(--ease);
 }
 
+.colombo-menu-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== HERO TEXT ===== */
 .colombo-hero-content {
   position: absolute;
-  top: 14%;
-  left: 3.5%;
+  top: 16%;
+  left: 4%;
   z-index: 3;
-  color: #111;
 }
 
 .colombo-hero-content h1 {
   margin: 0;
   font-size: clamp(3rem, 6vw, 5.3rem);
   font-weight: 600;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Playfair Display", serif;
 }
 
-.colombo-booking-bar {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(86%, 900px);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.1fr;
-  z-index: 4;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.colombo-booking-item,
-.colombo-book-now-btn {
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Poppins", Arial, sans-serif;
-  font-size: 0.95rem;
-}
-
-.colombo-booking-item {
-  background: #fff;
-  border-right: 1px solid #ddd;
-}
-
-.colombo-book-now-btn {
-  border: none;
-  background: #cda92f;
-  font-weight: 700;
-  cursor: pointer;
-}
-
+/* ===== CONTENT ===== */
 .colombo-content {
   background: #f5f4ef;
-  padding: 62px 52px 0;
+  padding: 60px 52px 0;
 }
 
+/* ===== INTRO ===== */
 .colombo-intro-row {
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 48px;
   align-items: center;
   margin-bottom: 56px;
@@ -127,13 +116,18 @@
 
 .colombo-intro-image-wrap {
   overflow: hidden;
+  border-radius: 18px;
 }
 
 .colombo-intro-image {
   width: 100%;
   height: 330px;
   object-fit: cover;
-  display: block;
+  transition: transform 0.6s ease;
+}
+
+.colombo-intro-image:hover {
+  transform: scale(1.04);
 }
 
 .colombo-intro-text {
@@ -143,24 +137,29 @@
 .colombo-intro-text p {
   margin: 0 auto 18px;
   max-width: 430px;
-  font-family: "Poppins", Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 1.6;
   font-size: 0.97rem;
   color: #222;
 }
 
+/* ===== BUTTON ===== */
 .near-stay-btn {
   min-width: 150px;
-  height: 42px;
-  border: 2px solid #6f5b19;
-  border-radius: 16px;
-  background: #d4af37;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#e2c661,#d4af37,#b88b13);
   color: #111;
   font-weight: 700;
   cursor: pointer;
-  font-family: "Poppins", Arial, sans-serif;
+  transition: var(--ease);
 }
 
+.near-stay-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== SLIDER ===== */
 .colombo-slider-section {
   position: relative;
   background: #000;
@@ -174,19 +173,24 @@
   gap: 34px;
 }
 
+/* ===== CARD ===== */
 .colombo-card {
-  background: #f8f8f8;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
+  background: #f8f8f8;
   border: 1px solid #d9d9d9;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--shadow-card);
+  transition: var(--ease);
+}
+
+.colombo-card:hover {
+  transform: translateY(-6px);
 }
 
 .colombo-card-image {
   width: 100%;
   height: 320px;
   object-fit: cover;
-  display: block;
 }
 
 .colombo-card-body {
@@ -195,39 +199,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 12px;
 }
 
 .colombo-card-body h3 {
-  margin: 0;
-  font-size: 1.7rem;
-  font-weight: 500;
-  text-align: center;
-  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.6rem;
+  font-family: "Playfair Display", serif;
 }
 
+/* ===== ARROWS ===== */
 .slider-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  color: #d4af37;
+  color: var(--gold);
   font-size: 4rem;
   cursor: pointer;
-  line-height: 1;
 }
 
-.left-arrow {
-  left: 16px;
-}
+.left-arrow { left: 16px; }
+.right-arrow { right: 16px; }
 
-.right-arrow {
-  right: 16px;
-}
-
+/* ===== MAP ===== */
 .colombo-map-section {
-  padding: 0 0 70px;
+  padding-bottom: 70px;
 }
 
 .colombo-map-header {
@@ -236,37 +232,30 @@
 }
 
 .colombo-map-header h2 {
-  margin: 0 0 8px;
   font-size: 2.4rem;
-  font-weight: 600;
-  font-family: "Playfair Display", Georgia, serif;
-  color: #111;
+  font-family: "Playfair Display", serif;
 }
 
 .colombo-map-header p {
-  margin: 0;
-  font-size: 1rem;
-  color: #555;
-  font-family: "Poppins", Arial, sans-serif;
+  color: var(--muted);
 }
 
 .colombo-map-wrapper {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  border-radius: 10px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  box-shadow: var(--shadow-soft);
 }
 
+/* ===== FOOTER ===== */
 .colombo-footer {
   background: #000;
   color: #fff;
   padding: 34px 30px;
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4,1fr);
   gap: 28px;
-  font-family: "Poppins", Arial, sans-serif;
 }
 
 .colombo-footer-logo {
@@ -274,19 +263,19 @@
   margin-bottom: 14px;
 }
 
-.colombo-footer-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
 .colombo-footer-col li {
-  line-height: 1.85;
+  line-height: 1.8;
   font-size: 0.9rem;
   color: #ddd;
-  font-family: "Poppins", Arial, sans-serif;
 }
 
+/* ===== ANIMATION ===== */
+@keyframes heroZoom {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .colombo-intro-row,
   .colombo-cards-grid {
@@ -297,43 +286,11 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  .slider-arrow {
-    display: none;
-  }
+  .slider-arrow { display: none; }
 }
 
 @media (max-width: 800px) {
-  .colombo-content {
-    padding: 40px 20px 0;
-  }
-
-  .colombo-booking-bar {
-    width: 92%;
-    grid-template-columns: 1fr;
-  }
-
-  .colombo-hero-content h1 {
-    font-size: 2.7rem;
-  }
-
-  .colombo-intro-image,
-  .colombo-card-image {
-    height: 240px;
-  }
-
-  .colombo-slider-section {
-    padding: 22px;
-  }
-
-  .colombo-map-header h2 {
-    font-size: 2rem;
-  }
-
-  .colombo-map-wrapper iframe {
-    height: 320px;
-  }
-
-  .colombo-footer {
-    grid-template-columns: 1fr;
-  }
+  .colombo-content { padding: 40px 20px 0; }
+  .colombo-card-image { height: 240px; }
+  .colombo-footer { grid-template-columns: 1fr; }
 }

@@ -1,4 +1,7 @@
-* {
+/* ===== RESET ===== */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -8,15 +11,16 @@ body {
   background: #f3f1eb;
 }
 
+/* ===== PAGE ===== */
 .menu-page {
   min-height: 100vh;
   background: #f3f1eb;
   display: flex;
   flex-direction: column;
-  animation: menuFadeIn 0.35s ease;
+  animation: menuFadeIn 0.4s ease;
 }
 
-/* top navbar */
+/* ===== TOP NAVBAR ===== */
 .menu-topbar {
   background: #000;
   min-height: 84px;
@@ -29,10 +33,9 @@ body {
 
 .menu-links {
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 52px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .menu-links a {
@@ -40,126 +43,177 @@ body {
   text-decoration: none;
   font-size: 17px;
   font-weight: 700;
+  position: relative;
   transition: color 0.3s ease;
-  font-family: "Poppins", Arial, sans-serif;
+}
+
+.menu-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #d4af37;
+  transition: width 0.3s ease;
 }
 
 .menu-links a:hover {
   color: #d4af37;
 }
 
+.menu-links a:hover::after {
+  width: 100%;
+}
+
+/* ===== MENU BUTTON ===== */
 .menu-icon-btn {
   position: absolute;
   right: 24px;
   top: 50%;
   transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border: none;
   background: #d4af37;
   color: #111;
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
-  font-family: "Poppins", Arial, sans-serif;
+  transition: transform 0.25s ease, background 0.3s ease;
 }
 
 .menu-icon-btn:hover {
   background: #bf9820;
-  transform: translateY(-50%) scale(1.05);
+  transform: translateY(-50%) scale(1.08);
 }
 
-/* cards section */
+/* ===== GRID ===== */
 .menu-grid-section {
-  padding: 32px 44px 38px;
+  padding: 28px 38px 34px;
 }
 
 .menu-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 26px;
 }
 
+/* ===== CARD ===== */
 .menu-card {
   position: relative;
-  height: 282px;
-  border-radius: 16px;
+  height: 342px;
+  border-radius: 18px;
   overflow: hidden;
   background: #ddd;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== IMAGE ===== */
 .menu-card-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.45s ease;
+  transition: transform 0.6s ease;
 }
 
 .menu-card:hover .menu-card-image {
   transform: scale(1.04);
 }
 
+/* ===== OVERLAY ===== */
 .menu-card-overlay {
   position: absolute;
   top: 0;
   left: 0;
-  width: 200px;
+  width: 45%;
+  max-width: 230px;
   height: 100%;
-  background: rgba(78, 71, 65, 0.38);
-  backdrop-filter: blur(2px);
+  background: rgba(78, 71, 65, 0.34);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
+/* ===== CONTENT ===== */
 .menu-card-content {
   position: absolute;
-  top: 18px;
-  left: 16px;
+  top: 22px;
+  left: 18px;
   z-index: 2;
   width: 200px;
   color: #fff;
+  animation: fadeInUp 0.6s ease;
 }
 
 .menu-card-content h2 {
-  margin: 0 0 10px;
+  margin: 0 0 14px;
   font-size: 32px;
-  line-height: 1.05;
-  font-weight: 600;
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  line-height: 1.15;
 }
 
 .menu-card-content p {
-  margin: 0;
-  font-size: 20px;
-  line-height: 1.15;
-  font-weight: 400;
-  font-family: "Poppins", Arial, sans-serif;
+  margin: 0 0 4px;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.95);
 }
 
+/* ===== BUTTON ===== */
 .menu-card-content button {
-  margin-top: 50px;
-  width: 138px;
-  height: 42px;
+  margin-top: 52px;
+  width: 122px;
+  height: 46px;
   border: none;
-  border-radius: 14px;
+  border-radius: 999px;
   background: #fff;
-  color: #111;
-  font-size: 18px;
+  color: #222;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  font-family: "Poppins", Arial, sans-serif;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-card-content button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+}
+
+.menu-card-content button:hover::after {
+  left: 100%;
+  transition: 0.6s;
 }
 
 .menu-card-content button:hover {
   background: #d4af37;
-  transform: translateY(-1px);
+  color: #111;
+  transform: translateY(-2px);
 }
 
+/* ===== ANIMATIONS ===== */
 @keyframes menuFadeIn {
   from {
     opacity: 0;
@@ -171,7 +225,18 @@ body {
   }
 }
 
-/* responsive */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .menu-links {
     gap: 28px;
@@ -184,6 +249,10 @@ body {
   .menu-grid-section {
     padding: 24px;
   }
+
+  .menu-card {
+    height: 300px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -191,67 +260,76 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .menu-topbar {
-    padding-top: 16px;
-    padding-bottom: 16px;
-  }
-
   .menu-links {
     width: 84%;
     gap: 18px;
+    justify-content: center;
+  }
+
+  .menu-card {
+    height: 290px;
   }
 }
 
 @media (max-width: 600px) {
   .menu-topbar {
-    min-height: 92px;
+    min-height: auto;
+    padding: 18px 16px;
   }
 
   .menu-links {
-    gap: 14px;
+    width: calc(100% - 56px);
+    gap: 12px 14px;
+    justify-content: flex-start;
   }
 
   .menu-links a {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .menu-icon-btn {
-    right: 14px;
-    width: 34px;
-    height: 34px;
-    font-size: 24px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
+    font-size: 22px;
   }
 
   .menu-grid-section {
-    padding: 18px 14px 22px;
+    padding: 16px;
   }
 
   .menu-card {
-    height: 230px;
+    height: 240px;
+    border-radius: 16px;
   }
 
   .menu-card-overlay {
-    width: 132px;
+    width: 48%;
+    max-width: 150px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
   }
 
   .menu-card-content {
-    top: 14px;
-    left: 12px;
-    width: 116px;
+    top: 16px;
+    left: 16px;
+    width: 120px;
   }
 
   .menu-card-content h2 {
     font-size: 22px;
+    margin-bottom: 8px;
   }
 
   .menu-card-content p {
     font-size: 12px;
+    line-height: 1.35;
   }
 
   .menu-card-content button {
     width: 96px;
     height: 36px;
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 20px;
   }
 }

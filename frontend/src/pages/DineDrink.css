@@ -1,15 +1,50 @@
-* {
+:root {
+  --dine-bg: #f4f3ef;
+  --dine-bg-soft: #f7f5ef;
+  --dine-text: #111111;
+  --dine-muted: #666666;
+  --dine-gold: #d4af37;
+  --dine-gold-dark: #b88b13;
+  --dine-line: rgba(17, 17, 17, 0.08);
+  --dine-surface: rgba(255, 255, 255, 0.92);
+  --dine-surface-soft: rgba(255, 255, 255, 0.78);
+  --dine-shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --dine-shadow-card: 0 18px 44px rgba(0, 0, 0, 0.14);
+  --dine-ease: all 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background: var(--dine-bg);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 .dine-page {
   width: 100%;
-  background: #f4f3ef;
-  color: #111;
+  background: var(--dine-bg);
+  color: var(--dine-text);
   overflow-x: hidden;
 }
 
-/* hero */
+/* HERO */
 .dine-hero {
   position: relative;
   width: 100%;
@@ -21,6 +56,8 @@
   height: 100vh;
   object-fit: cover;
   display: block;
+  transform: scale(1.03);
+  animation: dineHeroZoom 10s ease-out forwards;
 }
 
 .dine-hero-overlay {
@@ -49,31 +86,45 @@
   width: 78px;
   height: 78px;
   object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
 }
 
 .dine-menu-btn {
-  width: 36px;
-  height: 36px;
-  background: #d1ac2f;
+  width: 46px;
+  height: 46px;
   border: none;
-  font-size: 20px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e2c661 0%, #d4af37 50%, #b88b13 100%);
+  color: #111;
+  font-size: 22px;
   cursor: pointer;
-  transition: transform 0.25s ease, background 0.25s ease;
-  font-family: "Poppins", Arial, sans-serif;
+  transition: var(--dine-ease);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
 
 .dine-menu-btn:hover {
-  background: #bc9921;
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .dine-hero-content {
   position: absolute;
   top: 20%;
-  left: 3.5%;
+  left: 4%;
   z-index: 3;
   color: #fff;
   animation: dineHeroFade 0.9s ease;
+}
+
+.dine-hero-tag {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  font-size: 0.92rem;
+  letter-spacing: 0.3px;
 }
 
 .dine-hero-content h1 {
@@ -85,64 +136,32 @@
   font-family: "Playfair Display", Georgia, serif;
 }
 
-.dine-booking-bar {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(86%, 900px);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.1fr;
-  z-index: 4;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.dine-booking-item,
-.dine-book-now-btn {
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Poppins", Arial, sans-serif;
-  font-size: 0.95rem;
-}
-
-.dine-booking-item {
-  background: #fff;
-  border-right: 1px solid #ddd;
-}
-
-.dine-book-now-btn {
-  border: none;
-  background: #cda92f;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.dine-book-now-btn:hover {
-  background: #b8951f;
-}
-
-/* main content */
+/* MAIN CONTENT */
 .dine-content {
-  background: #f5f4ef;
+  background:
+    radial-gradient(circle at top left, rgba(212, 175, 55, 0.06), transparent 22%),
+    linear-gradient(to bottom, #f7f5ef 0%, #f5f4ef 100%);
   padding: 64px 52px 0;
 }
 
+/* INFO ROW */
 .dine-info-row {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 56px;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 34px;
   align-items: center;
-  margin-bottom: 48px;
+  margin-bottom: 44px;
+  padding: 22px;
+  border-radius: 28px;
+  background: var(--dine-surface-soft);
+  border: 1px solid rgba(17, 17, 17, 0.06);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--dine-shadow-soft);
 }
 
 .dine-info-image-wrap {
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 24px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
 }
 
@@ -150,16 +169,26 @@
   width: 100%;
   height: 380px;
   object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease;
 }
 
-.dine-info-image:hover {
-  transform: scale(1.03);
+.dine-info-row:hover .dine-info-image {
+  transform: scale(1.04);
 }
 
 .dine-info-text {
-  text-align: center;
+  text-align: left;
+  padding: 10px 8px;
+}
+
+.dine-section-tag {
+  display: inline-block;
+  margin: 0 0 10px;
+  color: #9f7812;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 .dine-info-text h2 {
@@ -169,41 +198,39 @@
   font-family: "Playfair Display", Georgia, serif;
 }
 
-.dine-info-text p {
-  margin: 0 auto;
-  max-width: 430px;
-  font-family: "Poppins", Arial, sans-serif;
-  line-height: 1.6;
+.dine-info-text p:last-child {
+  margin: 0;
+  max-width: 500px;
+  line-height: 1.7;
   font-size: 0.98rem;
   color: #333;
 }
 
-/* split banner */
+/* SPLIT BANNER */
 .dine-split-banner {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
+  gap: 24px;
   margin-bottom: 40px;
-  overflow: hidden;
-  border-radius: 6px;
 }
 
 .split-card {
   position: relative;
   height: 370px;
   overflow: hidden;
+  border-radius: 28px;
+  box-shadow: var(--dine-shadow-soft);
 }
 
 .split-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
   transition: transform 0.55s ease;
 }
 
 .split-card:hover img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .split-overlay {
@@ -242,29 +269,33 @@
   transform: translateY(-50%);
 }
 
-/* middle paragraph */
+/* PARAGRAPH BLOCK */
 .dine-paragraph-block {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.88);
   padding: 38px 70px;
-  margin-bottom: 0;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+  border-radius: 28px;
+  box-shadow: var(--dine-shadow-soft);
 }
 
 .dine-paragraph-block p {
   margin: 0 auto;
   max-width: 900px;
   text-align: center;
-  font-family: "Poppins", Arial, sans-serif;
-  line-height: 1.7;
-  font-size: 0.96rem;
+  line-height: 1.8;
+  font-size: 0.97rem;
   color: #333;
 }
 
-/* bottom grid */
+/* BOTTOM GRID */
 .dine-bottom-grid {
   display: grid;
   grid-template-columns: 1fr 0.45fr 1fr;
   align-items: stretch;
+  gap: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--dine-shadow-soft);
 }
 
 .bottom-image {
@@ -275,16 +306,15 @@
   width: 100%;
   height: 370px;
   object-fit: cover;
-  display: block;
   transition: transform 0.5s ease;
 }
 
 .bottom-image img:hover {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .bottom-center-text {
-  background: linear-gradient(180deg, #bba390 0%, #a88d79 100%);
+  background: linear-gradient(135deg, #e2c661 0%, #d4af37 50%, #b88b13 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -301,7 +331,7 @@
   font-family: "Playfair Display", Georgia, serif;
 }
 
-/* footer */
+/* FOOTER */
 .dine-footer {
   background: #000;
   color: #fff;
@@ -327,10 +357,9 @@
   line-height: 1.85;
   font-size: 0.9rem;
   color: #ddd;
-  font-family: "Poppins", Arial, sans-serif;
 }
 
-/* responsive */
+/* RESPONSIVE */
 @media (max-width: 1100px) {
   .dine-info-row {
     grid-template-columns: 1fr;
@@ -344,11 +373,6 @@
 @media (max-width: 800px) {
   .dine-content {
     padding: 40px 20px 0;
-  }
-
-  .dine-booking-bar {
-    width: 92%;
-    grid-template-columns: 1fr;
   }
 
   .dine-split-banner,
@@ -389,6 +413,42 @@
   }
 }
 
+@media (max-width: 520px) {
+  .dine-top-bar {
+    top: 14px;
+    left: 14px;
+    right: 14px;
+  }
+
+  .dine-logo {
+    width: 62px;
+    height: 62px;
+  }
+
+  .dine-menu-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .dine-hero-tag {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+
+  .dine-hero-content h1 {
+    font-size: 2.35rem;
+  }
+
+  .split-card,
+  .dine-info-row,
+  .dine-paragraph-block,
+  .dine-bottom-grid {
+    border-radius: 22px;
+  }
+}
+
+/* ANIMATIONS */
 @keyframes dineHeroFade {
   from {
     opacity: 0;
@@ -397,5 +457,14 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes dineHeroZoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1.03);
   }
 }

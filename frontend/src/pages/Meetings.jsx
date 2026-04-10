@@ -2,7 +2,6 @@ import "./Meetings.css";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 
-
 import logo from "../assets/logo.png";
 import hero from "../assets/meeting.png";
 import chair from "../assets/chair.png";
@@ -21,28 +20,32 @@ function CapacityTag({ name, seats }) {
 function VenueCard({ image, tags, featuresLeft, featuresRight }) {
   return (
     <div className="venue-card">
-      <img src={image} alt="Venue" className="venue-card-image" />
-
-      <div className="venue-tags">
-        {tags.map((tag, index) => (
-          <CapacityTag key={index} name={tag.name} seats={tag.seats} />
-        ))}
+      <div className="venue-card-image-wrap">
+        <img src={image} alt="Venue" className="venue-card-image" />
       </div>
 
-      <div className="venue-features">
-        <p className="venue-features-title">World class facilities</p>
+      <div className="venue-card-body">
+        <div className="venue-tags">
+          {tags.map((tag, index) => (
+            <CapacityTag key={index} name={tag.name} seats={tag.seats} />
+          ))}
+        </div>
 
-        <div className="venue-features-grid">
-          <div>
-            {featuresLeft.map((item, index) => (
-              <p key={index}>{item}</p>
-            ))}
-          </div>
+        <div className="venue-features">
+          <p className="venue-features-title">World class facilities</p>
 
-          <div>
-            {featuresRight.map((item, index) => (
-              <p key={index}>{item}</p>
-            ))}
+          <div className="venue-features-grid">
+            <div>
+              {featuresLeft.map((item, index) => (
+                <p key={index}>{item}</p>
+              ))}
+            </div>
+
+            <div>
+              {featuresRight.map((item, index) => (
+                <p key={index}>{item}</p>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -50,7 +53,7 @@ function VenueCard({ image, tags, featuresLeft, featuresRight }) {
   );
 }
 
-function Meetings({ onBackToMenu }) {
+function Meetings() {
   const navigate = useNavigate();
 
   const handleEnquiryClick = () => {
@@ -77,6 +80,7 @@ function Meetings({ onBackToMenu }) {
         </header>
 
         <div className="meetings-hero-content">
+          <p className="meetings-hero-tag">Professional spaces for every event</p>
           <h1>Meetings</h1>
         </div>
       </section>
@@ -84,8 +88,13 @@ function Meetings({ onBackToMenu }) {
       <section className="meetings-content">
         <section className="meetings-intro-row">
           <div className="meetings-intro-image-wrap">
-            <img src={chair} alt="Meeting area" className="meetings-intro-image" />
+            <img
+              src={chair}
+              alt="Meeting area"
+              className="meetings-intro-image"
+            />
           </div>
+
           <div className="meetings-intro-text">
             <p>
               Enjoy state-of-the-art facilities and services for your business
@@ -99,7 +108,9 @@ function Meetings({ onBackToMenu }) {
 
         <section className="conference-section">
           <div className="conference-left">
+            <p className="conference-mini-title">Flexible event planning</p>
             <h2>Conference Packages</h2>
+
             <ul>
               <li>Full Day Conference</li>
               <li>Half Day Conference</li>
