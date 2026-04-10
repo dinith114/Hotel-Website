@@ -1,14 +1,50 @@
-* {
+:root {
+  --special-bg: #f4f3ef;
+  --special-bg-soft: #f7f5ef;
+  --special-text: #111111;
+  --special-muted: #666666;
+  --special-gold: #d4af37;
+  --special-gold-dark: #b88b13;
+  --special-line: rgba(17, 17, 17, 0.08);
+  --special-surface: rgba(255, 255, 255, 0.92);
+  --special-surface-soft: rgba(255, 255, 255, 0.78);
+  --special-shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --special-shadow-card: 0 18px 44px rgba(0, 0, 0, 0.14);
+  --special-ease: all 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background: var(--special-bg);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 .special-page {
   width: 100%;
-  background: #f4f3ef;
-  color: #111;
+  background: var(--special-bg);
+  color: var(--special-text);
   overflow-x: hidden;
 }
 
+/* HERO */
 .special-hero {
   position: relative;
   width: 100%;
@@ -20,6 +56,8 @@
   height: 100vh;
   object-fit: cover;
   display: block;
+  transform: scale(1.03);
+  animation: specialHeroZoom 10s ease-out forwards;
 }
 
 .special-hero-overlay {
@@ -48,30 +86,44 @@
   width: 78px;
   height: 78px;
   object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
 }
 
 .special-menu-btn {
-  width: 34px;
-  height: 34px;
-  background: #d1ac2f;
+  width: 46px;
+  height: 46px;
   border: none;
-  font-size: 20px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e2c661 0%, #d4af37 50%, #b88b13 100%);
+  color: #111;
+  font-size: 22px;
   cursor: pointer;
-  transition: transform 0.25s ease, background 0.25s ease;
-  font-family: "Poppins", Arial, sans-serif;
+  transition: var(--special-ease);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
 
 .special-menu-btn:hover {
-  background: #bc9921;
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .special-hero-content {
   position: absolute;
-  top: 16%;
-  left: 3.5%;
+  top: 18%;
+  left: 4%;
   z-index: 3;
   color: #fff;
+}
+
+.special-hero-tag {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  font-size: 0.92rem;
+  letter-spacing: 0.3px;
 }
 
 .special-hero-content h1 {
@@ -82,142 +134,145 @@
   font-family: "Playfair Display", Georgia, serif;
 }
 
-.special-booking-bar {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(86%, 900px);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.1fr;
-  z-index: 4;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.special-booking-item,
-.special-book-now-btn {
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Poppins", Arial, sans-serif;
-  font-size: 0.95rem;
-}
-
-.special-booking-item {
-  background: #fff;
-  border-right: 1px solid #ddd;
-}
-
-.special-book-now-btn {
-  border: none;
-  background: #cda92f;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  font-family: "Poppins", Arial, sans-serif;
-}
-
-.special-book-now-btn:hover {
-  background: #b8951f;
-}
-
+/* CONTENT */
 .special-content {
-  background: #f5f4ef;
+  background:
+    radial-gradient(circle at top left, rgba(212, 175, 55, 0.06), transparent 22%),
+    linear-gradient(to bottom, #f7f5ef 0%, #f5f4ef 100%);
   padding: 64px 52px 0;
 }
 
+/* INTRO */
 .special-intro-row {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 48px;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 34px;
   align-items: center;
-  margin-bottom: 56px;
+  margin-bottom: 44px;
+  padding: 22px;
+  border-radius: 28px;
+  background: var(--special-surface-soft);
+  border: 1px solid rgba(17, 17, 17, 0.06);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--special-shadow-soft);
 }
 
 .special-intro-image-wrap {
   overflow: hidden;
+  border-radius: 24px;
 }
 
 .special-intro-image {
   width: 100%;
-  height: 340px;
+  height: 360px;
   object-fit: cover;
   display: block;
+  transition: transform 0.7s ease;
+}
+
+.special-intro-row:hover .special-intro-image {
+  transform: scale(1.04);
 }
 
 .special-intro-text {
-  text-align: center;
+  text-align: left;
+  padding: 10px 8px;
 }
 
-.special-intro-text p {
-  margin: 0 auto;
-  max-width: 420px;
-  font-family: "Poppins", Arial, sans-serif;
-  line-height: 1.45;
+.special-section-tag {
+  display: inline-block;
+  margin: 0 0 10px;
+  color: #9f7812;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.special-intro-text p:last-child {
+  margin: 0;
+  max-width: 500px;
+  line-height: 1.8;
   font-size: 0.98rem;
   color: #222;
 }
 
+/* OCCASION CARDS */
 .special-cards-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 46px;
-  margin-bottom: 56px;
+  gap: 28px;
+  margin-bottom: 44px;
 }
 
 .occasion-card {
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: var(--special-surface);
+  border-radius: 28px;
   overflow: hidden;
-  border: 1px solid #d6d6d6;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(17, 17, 17, 0.06);
+  box-shadow: var(--special-shadow-soft);
+  transition: var(--special-ease);
+}
+
+.occasion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--special-shadow-card);
+}
+
+.occasion-card-image-wrap {
+  overflow: hidden;
 }
 
 .occasion-card-image {
   width: 100%;
   height: 320px;
   object-fit: cover;
-  display: block;
+  transition: transform 0.7s ease;
+}
+
+.occasion-card:hover .occasion-card-image {
+  transform: scale(1.04);
 }
 
 .occasion-card-body {
-  background: #f7f7f7;
-  border-top: 1px solid #dcdcdc;
-  border-bottom: 1px solid #dcdcdc;
-  min-height: 86px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 12px;
-}
-
-.occasion-card-body h3 {
-  margin: 0;
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 1.7rem;
-  font-weight: 500;
+  padding: 24px 22px 24px;
   text-align: center;
 }
 
-.occasion-card-btn {
-  width: 100%;
-  min-height: 62px;
-  border: none;
-  background: #f7f7f7;
-  color: #2ea44f;
-  font-size: 1.05rem;
-  cursor: pointer;
-  font-family: "Poppins", Arial, sans-serif;
+.occasion-card-body h3 {
+  margin: 0 0 16px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: #111;
 }
 
+.occasion-card-btn {
+  min-width: 120px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e2c661 0%, #d4af37 50%, #b88b13 100%);
+  color: #111;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--special-ease);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.occasion-card-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* BANQUET */
 .banquet-section {
   display: grid;
-  grid-template-columns: 0.38fr 0.62fr;
+  grid-template-columns: 0.4fr 0.6fr;
   background: #000;
   margin-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  overflow: hidden;
+  box-shadow: var(--special-shadow-card);
 }
 
 .banquet-left {
@@ -225,39 +280,56 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 40px 34px 0;
+}
+
+.banquet-mini-title {
+  margin: 0 0 10px;
+  color: #d8c07a;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 0.74rem;
+  font-weight: 700;
 }
 
 .banquet-left h2 {
-  margin: 0;
-  padding: 46px 36px 18px;
-  color: #d4af37;
-  font-size: 3rem;
+  margin: 0 0 24px;
+  color: var(--special-gold);
+  font-size: clamp(2.4rem, 4vw, 3rem);
   line-height: 1.08;
   font-weight: 700;
   font-family: "Playfair Display", Georgia, serif;
 }
 
 .banquet-enquiry-btn {
-  margin: 0 36px 28px;
-  width: 122px;
-  height: 42px;
+  width: 150px;
+  height: 46px;
   border: none;
-  background: #d4af37;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e2c661 0%, #d4af37 50%, #b88b13 100%);
   color: #111;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
-  font-family: "Poppins", Arial, sans-serif;
+  transition: var(--special-ease);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+  margin-bottom: 26px;
+}
+
+.banquet-enquiry-btn:hover {
+  transform: translateY(-2px);
 }
 
 .banquet-tags {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: auto;
+  margin-left: -34px;
+  margin-right: -34px;
 }
 
 .banquet-tag {
-  min-height: 104px;
-  background: #d4af37;
+  min-height: 112px;
+  background: linear-gradient(180deg, #ead27c 0%, #d4af37 55%, #b98f18 100%);
   color: #111;
   border-top: 1px solid rgba(0, 0, 0, 0.18);
   border-right: 1px solid rgba(0, 0, 0, 0.18);
@@ -265,19 +337,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 14px;
   text-align: center;
+}
+
+.banquet-tag:last-child {
+  border-right: none;
 }
 
 .banquet-tag-name {
   font-size: 1rem;
-  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
 .banquet-tag-seats {
   font-size: 0.88rem;
-  font-family: "Poppins", Arial, sans-serif;
 }
 
 .banquet-right img {
@@ -288,6 +363,7 @@
   display: block;
 }
 
+/* FOOTER */
 .special-footer {
   background: #000;
   color: #fff;
@@ -295,7 +371,6 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr 1fr;
   gap: 28px;
-  font-family: "Poppins", Arial, sans-serif;
 }
 
 .special-footer-logo {
@@ -313,9 +388,9 @@
   line-height: 1.85;
   font-size: 0.9rem;
   color: #ddd;
-  font-family: "Poppins", Arial, sans-serif;
 }
 
+/* RESPONSIVE */
 @media (max-width: 1100px) {
   .special-intro-row,
   .special-cards-grid,
@@ -326,16 +401,16 @@
   .special-footer {
     grid-template-columns: 1fr 1fr;
   }
+
+  .banquet-tags {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 @media (max-width: 800px) {
   .special-content {
-    padding: 40px 20px 0;
-  }
-
-  .special-booking-bar {
-    width: 92%;
-    grid-template-columns: 1fr;
+    padding: 40px 18px 0;
   }
 
   .special-hero-content h1 {
@@ -349,6 +424,10 @@
     min-height: 240px;
   }
 
+  .banquet-left {
+    padding: 28px 22px 0;
+  }
+
   .banquet-left h2 {
     font-size: 2.2rem;
   }
@@ -359,5 +438,49 @@
 
   .special-footer {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .special-top-bar {
+    top: 14px;
+    left: 14px;
+    right: 14px;
+  }
+
+  .special-logo {
+    width: 62px;
+    height: 62px;
+  }
+
+  .special-menu-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .special-hero-tag {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+
+  .special-hero-content h1 {
+    font-size: 2.35rem;
+  }
+
+  .special-intro-row,
+  .occasion-card,
+  .banquet-section {
+    border-radius: 22px;
+  }
+}
+
+/* ANIMATION */
+@keyframes specialHeroZoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1.03);
   }
 }

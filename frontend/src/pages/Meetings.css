@@ -1,14 +1,45 @@
-* {
+:root {
+  --bg: #f4f3ef;
+  --bg-soft: #f7f5ef;
+  --text: #111111;
+  --muted: #666666;
+  --gold: #d4af37;
+  --gold-dark: #b88b13;
+  --line: rgba(17, 17, 17, 0.08);
+  --surface: rgba(255, 255, 255, 0.94);
+  --surface-soft: rgba(255, 255, 255, 0.78);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 18px 44px rgba(0, 0, 0, 0.14);
+  --ease: all 0.3s ease;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background: var(--bg);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
 .meetings-page {
   width: 100%;
-  background: #f4f3ef;
-  color: #111;
+  background: var(--bg);
+  color: var(--text);
   overflow-x: hidden;
 }
 
+/* HERO */
 .meetings-hero {
   position: relative;
   width: 100%;
@@ -20,6 +51,8 @@
   height: 100vh;
   object-fit: cover;
   display: block;
+  transform: scale(1.03);
+  animation: meetingsHeroZoom 10s ease-out forwards;
 }
 
 .meetings-hero-overlay {
@@ -28,8 +61,8 @@
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.08),
-    rgba(0, 0, 0, 0.12),
-    rgba(0, 0, 0, 0.24)
+    rgba(0, 0, 0, 0.16),
+    rgba(0, 0, 0, 0.34)
   );
 }
 
@@ -48,125 +81,116 @@
   width: 78px;
   height: 78px;
   object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
 }
 
 .meetings-menu-btn {
-  width: 34px;
-  height: 34px;
-  background: #d1ac2f;
+  width: 46px;
+  height: 46px;
   border: none;
-  font-size: 20px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e2c661 0%, #d4af37 50%, #b98f18 100%);
+  color: #111;
+  font-size: 22px;
   cursor: pointer;
-  transition: transform 0.25s ease, background 0.25s ease;
-  font-family: "Poppins", Arial, sans-serif;
+  transition: var(--ease);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
 }
 
 .meetings-menu-btn:hover {
-  background: #bc9921;
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .meetings-hero-content {
   position: absolute;
-  top: 15%;
-  left: 3.5%;
+  top: 18%;
+  left: 4%;
   z-index: 3;
   color: #fff;
+}
+
+.meetings-hero-tag {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  font-size: 0.92rem;
+  letter-spacing: 0.3px;
 }
 
 .meetings-hero-content h1 {
   margin: 0;
   font-size: clamp(3rem, 6vw, 5.3rem);
   font-weight: 600;
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
   font-family: "Playfair Display", Georgia, serif;
 }
 
-.meetings-booking-bar {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(86%, 900px);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.1fr;
-  z-index: 4;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.meetings-booking-item,
-.meetings-book-now-btn {
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Poppins", Arial, sans-serif;
-  font-size: 0.95rem;
-}
-
-.meetings-booking-item {
-  background: #fff;
-  border-right: 1px solid #ddd;
-}
-
-.meetings-book-now-btn {
-  border: none;
-  background: #cda92f;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  font-family: "Poppins", Arial, sans-serif;
-}
-
-.meetings-book-now-btn:hover {
-  background: #b8951f;
-}
-
+/* CONTENT */
 .meetings-content {
-  background: #f5f4ef;
-  padding: 64px 52px 56px;
+  background:
+    radial-gradient(circle at top left, rgba(212, 175, 55, 0.06), transparent 22%),
+    linear-gradient(to bottom, #f7f5ef 0%, #f5f4ef 100%);
+  padding: 64px 52px 60px;
 }
 
+/* INTRO */
 .meetings-intro-row {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 48px;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 34px;
   align-items: center;
-  margin-bottom: 52px;
+  margin-bottom: 44px;
+  padding: 22px;
+  border-radius: 28px;
+  background: var(--surface-soft);
+  border: 1px solid rgba(17, 17, 17, 0.06);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-soft);
 }
 
 .meetings-intro-image-wrap {
   overflow: hidden;
+  border-radius: 24px;
 }
 
 .meetings-intro-image {
   width: 100%;
-  height: 340px;
+  height: 360px;
   object-fit: cover;
   display: block;
+  transition: transform 0.7s ease;
+}
+
+.meetings-intro-row:hover .meetings-intro-image {
+  transform: scale(1.04);
 }
 
 .meetings-intro-text {
-  text-align: center;
+  text-align: left;
+  padding: 10px 8px;
 }
 
 .meetings-intro-text p {
-  margin: 0 auto;
-  max-width: 420px;
-  font-family: "Poppins", Arial, sans-serif;
-  line-height: 1.45;
+  margin: 0;
+  max-width: 520px;
+  line-height: 1.8;
   font-size: 0.98rem;
   color: #222;
 }
 
+/* CONFERENCE */
 .conference-section {
   display: grid;
   grid-template-columns: 0.42fr 0.58fr;
-  margin-bottom: 56px;
+  margin-bottom: 44px;
   background: #000;
+  border-radius: 28px;
   overflow: hidden;
+  box-shadow: var(--shadow-card);
 }
 
 .conference-left {
@@ -177,10 +201,19 @@
   justify-content: center;
 }
 
+.conference-mini-title {
+  margin: 0 0 10px;
+  color: #d8c07a;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
 .conference-left h2 {
-  margin: 0 0 28px;
-  color: #d4af37;
-  font-size: 3rem;
+  margin: 0 0 24px;
+  color: var(--gold);
+  font-size: clamp(2.4rem, 4vw, 3rem);
   line-height: 1.05;
   font-weight: 700;
   font-family: "Playfair Display", Georgia, serif;
@@ -193,19 +226,47 @@
 }
 
 .conference-left li {
-  font-size: 1.2rem;
+  position: relative;
+  padding-left: 18px;
+  font-size: 1.05rem;
   line-height: 1.9;
-  font-family: "Poppins", Arial, sans-serif;
+  color: #f0f0f0;
+}
+
+.conference-left li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+}
+
+.conference-enquiry-btn {
+  margin-top: 28px;
+  width: 150px;
+  height: 46px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e2c661 0%, #d4af37 50%, #b88b13 100%);
+  color: #111;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--ease);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+}
+
+.conference-enquiry-btn:hover {
+  transform: translateY(-2px);
 }
 
 .conference-right img {
   width: 100%;
   height: 100%;
-  min-height: 360px;
+  min-height: 380px;
   object-fit: cover;
   display: block;
 }
 
+/* VENUES */
 .venues-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -213,11 +274,21 @@
 }
 
 .venue-card {
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: var(--surface);
+  border-radius: 28px;
   overflow: hidden;
-  border: 1px solid #d6d6d6;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(17, 17, 17, 0.06);
+  box-shadow: var(--shadow-soft);
+  transition: var(--ease);
+}
+
+.venue-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+
+.venue-card-image-wrap {
+  overflow: hidden;
 }
 
 .venue-card-image {
@@ -225,6 +296,15 @@
   height: 330px;
   object-fit: cover;
   display: block;
+  transition: transform 0.7s ease;
+}
+
+.venue-card:hover .venue-card-image {
+  transform: scale(1.04);
+}
+
+.venue-card-body {
+  padding: 22px 20px 22px;
 }
 
 .venue-tags {
@@ -232,43 +312,44 @@
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 18px 16px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background: #f6f6f6;
+  margin-bottom: 18px;
 }
 
 .capacity-tag {
-  background: #ececec;
-  border-radius: 12px;
-  min-width: 120px;
-  padding: 10px 14px 8px;
+  min-width: 126px;
+  padding: 12px 14px 10px;
   text-align: center;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #f7f1dc 0%, #f2e6bb 100%);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
 }
 
 .tag-name {
   display: block;
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.1;
-  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 700;
+  color: #111;
 }
 
 .tag-seats {
   display: block;
-  margin-top: 4px;
-  color: #2ea44f;
-  font-size: 0.82rem;
-  font-family: "Poppins", Arial, sans-serif;
+  margin-top: 6px;
+  color: #1d8a48;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .venue-features {
-  padding: 18px 18px 22px;
+  padding: 10px 6px 2px;
   text-align: center;
 }
 
 .venue-features-title {
   margin: 0 0 14px;
-  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 700;
+  color: #111;
 }
 
 .venue-features-grid {
@@ -279,10 +360,12 @@
 
 .venue-features-grid p {
   margin: 0 0 10px;
-  font-family: "Poppins", Arial, sans-serif;
   font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
 }
 
+/* FOOTER */
 .meetings-footer {
   background: #000;
   color: #fff;
@@ -290,25 +373,6 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr 1fr;
   gap: 28px;
-  font-family: "Poppins", Arial, sans-serif;
-}
-
-.conference-enquiry-btn {
-  margin-top: 26px;
-  width: 140px;
-  height: 42px;
-  border: none;
-  background: #d4af37;
-  color: #111;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: "Poppins", Arial, sans-serif;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.conference-enquiry-btn:hover {
-  background: #bc9921;
-  transform: translateY(-1px);
 }
 
 .meetings-footer-logo {
@@ -326,9 +390,19 @@
   line-height: 1.85;
   font-size: 0.9rem;
   color: #ddd;
-  font-family: "Poppins", Arial, sans-serif;
 }
 
+/* ANIMATION */
+@keyframes meetingsHeroZoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1.03);
+  }
+}
+
+/* RESPONSIVE */
 @media (max-width: 1100px) {
   .meetings-intro-row,
   .conference-section,
@@ -343,16 +417,15 @@
 
 @media (max-width: 800px) {
   .meetings-content {
-    padding: 40px 20px 50px;
-  }
-
-  .meetings-booking-bar {
-    width: 92%;
-    grid-template-columns: 1fr;
+    padding: 40px 18px 50px;
   }
 
   .meetings-hero-content h1 {
     font-size: 2.8rem;
+  }
+
+  .conference-left {
+    padding: 30px 24px;
   }
 
   .conference-left h2 {
@@ -372,5 +445,39 @@
 
   .meetings-footer {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .meetings-top-bar {
+    top: 14px;
+    left: 14px;
+    right: 14px;
+  }
+
+  .meetings-logo {
+    width: 62px;
+    height: 62px;
+  }
+
+  .meetings-menu-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .meetings-hero-tag {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+
+  .meetings-hero-content h1 {
+    font-size: 2.35rem;
+  }
+
+  .meetings-intro-row,
+  .venue-card,
+  .conference-section {
+    border-radius: 22px;
   }
 }

@@ -12,18 +12,21 @@ import boket from "../assets/boket.png";
 function OccasionCard({ image, title }) {
   return (
     <div className="occasion-card">
-      <img src={image} alt={title} className="occasion-card-image" />
+      <div className="occasion-card-image-wrap">
+        <img src={image} alt={title} className="occasion-card-image" />
+      </div>
+
       <div className="occasion-card-body">
         <h3>{title}</h3>
+        <button type="button" className="occasion-card-btn">
+          View
+        </button>
       </div>
-      <button type="button" className="occasion-card-btn">
-        View
-      </button>
     </div>
   );
 }
 
-function SpecialOccasions({ onBackToMenu, onBookingClick }) {
+function SpecialOccasions() {
   const navigate = useNavigate();
 
   const handleEnquiryClick = () => {
@@ -50,30 +53,23 @@ function SpecialOccasions({ onBackToMenu, onBookingClick }) {
         </header>
 
         <div className="special-hero-content">
+          <p className="special-hero-tag">Celebrate unforgettable moments</p>
           <h1>Special Occasions</h1>
         </div>
-
-        {/* <div className="special-booking-bar">
-          <div className="special-booking-item">📅 CHECK IN</div>
-          <div className="special-booking-item">📅 CHECK OUT</div>
-          <div className="special-booking-item">👥 GUESTS</div>
-          <button
-            className="special-book-now-btn"
-            type="button"
-            onClick={onBookingClick}
-          >
-            BOOK NOW
-          </button>
-        </div> */}
       </section>
 
       <section className="special-content">
         <section className="special-intro-row">
           <div className="special-intro-image-wrap">
-            <img src={girl} alt="Special event" className="special-intro-image" />
+            <img
+              src={girl}
+              alt="Special event"
+              className="special-intro-image"
+            />
           </div>
 
           <div className="special-intro-text">
+            <p className="special-section-tag">Elegant events</p>
             <p>
               Enjoy our unparalleled facilities and service standard for your
               special events. Our venues are an ideal option for anything from
@@ -91,7 +87,9 @@ function SpecialOccasions({ onBackToMenu, onBookingClick }) {
 
         <section className="banquet-section">
           <div className="banquet-left">
+            <p className="banquet-mini-title">Luxury event planning</p>
             <h2>Banqueting packages</h2>
+
             <button
               type="button"
               className="banquet-enquiry-btn"

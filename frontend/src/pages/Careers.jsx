@@ -5,7 +5,7 @@ import logo from "../assets/logo.png";
 import hero from "../assets/career.png";
 import { useNavigate } from "react-router-dom";
 
-function Careers({ onBackToMenu, onBookingClick }) {
+function Careers() {
   const navigate = useNavigate();
   const [careers, setCareers] = useState([]);
   const [careersLoading, setCareersLoading] = useState(true);
@@ -24,7 +24,7 @@ function Careers({ onBackToMenu, onBookingClick }) {
     experience: "",
     skills: "",
     expectedSalary: "",
-    availability: "",
+    availability: "Negotiable",
     coverLetter: "",
   });
 
@@ -50,7 +50,7 @@ function Careers({ onBackToMenu, onBookingClick }) {
       } catch (error) {
         setCareersError(
           error.response?.data?.message ||
-            "Unable to load careers right now. Please try again shortly.",
+            "Unable to load careers right now. Please try again shortly."
         );
       } finally {
         setCareersLoading(false);
@@ -62,7 +62,7 @@ function Careers({ onBackToMenu, onBookingClick }) {
 
   const selectedCareer = useMemo(
     () => careers.find((career) => career._id === selectedCareerId),
-    [careers, selectedCareerId],
+    [careers, selectedCareerId]
   );
 
   const formattedDeadline = useMemo(() => {
@@ -200,79 +200,102 @@ function Careers({ onBackToMenu, onBookingClick }) {
         </header>
 
         <div className="careers-hero-content">
+          <p className="careers-hero-tag">Join our hospitality team</p>
           <h1>Careers</h1>
         </div>
-
       </section>
 
       <section className="careers-content">
         <div className="vacancies-panel">
-          <h2>Vacancies</h2>
+          <div className="vacancies-panel-card">
+            <p className="panel-mini-title">Available Positions</p>
+            <h2>Vacancies</h2>
 
-          <select
-            className="vacancy-select"
-            value={selectedCareerId}
-            onChange={(event) => setSelectedCareerId(event.target.value)}
-            disabled={careersLoading || careers.length === 0}
-          >
-            {careers.length === 0 && (
-              <option value="">
-                {careersLoading ? "Loading..." : "No vacancies"}
-              </option>
-            )}
-            {careers.map((career) => (
-              <option key={career._id} value={career._id}>
-                {career.title}
-              </option>
-            ))}
-          </select>
-
-          {careersError && <p className="career-status-text">{careersError}</p>}
-
-          {!careersError && selectedCareer ? (
-            <div className="career-details-card">
-              <p className="career-status-text">
-                {selectedCareer.department} | {selectedCareer.location} |{" "}
-                {selectedCareer.employmentType}
-              </p>
-
-              <ul className="career-details-list">
-                <li>
-                  <strong>Vacancies:</strong> {selectedCareer.vacancies || 1}
-                </li>
-                <li>
-                  <strong>Experience Required:</strong>{" "}
-                  {selectedCareer.experienceRequired || "Not specified"}
-                </li>
-                <li>
-                  <strong>Salary Range:</strong> {formattedSalaryRange}
-                </li>
-                <li>
-                  <strong>Application Deadline:</strong> {formattedDeadline}
-                </li>
-              </ul>
-
-              <p className="career-detail-block">
-                <strong>Description:</strong> {selectedCareer.description}
-              </p>
-
-              <p className="career-detail-block">
-                <strong>Requirements:</strong> {selectedCareer.requirements}
-              </p>
-
-              {selectedCareer.responsibilities && (
-                <p className="career-detail-block">
-                  <strong>Responsibilities:</strong>{" "}
-                  {selectedCareer.responsibilities}
-                </p>
+            <select
+              className="vacancy-select"
+              value={selectedCareerId}
+              onChange={(event) => setSelectedCareerId(event.target.value)}
+              disabled={careersLoading || careers.length === 0}
+            >
+              {careers.length === 0 && (
+                <option value="">
+                  {careersLoading ? "Loading..." : "No vacancies"}
+                </option>
               )}
-            </div>
-          ) : (
-            <p>Join our team of highly trained hospitality professionals.</p>
-          )}
+              {careers.map((career) => (
+                <option key={career._id} value={career._id}>
+                  {career.title}
+                </option>
+              ))}
+            </select>
+
+            {careersError && (
+              <p className="career-status-text careers-error-text">
+                {careersError}
+              </p>
+            )}
+
+            {!careersError && selectedCareer ? (
+              <div className="career-details-card">
+                <div className="career-top-meta">
+                  <span>{selectedCareer.department}</span>
+                  <span>{selectedCareer.location}</span>
+                  <span>{selectedCareer.employmentType}</span>
+                </div>
+
+                <ul className="career-details-list">
+                  <li>
+                    <strong>Vacancies:</strong> {selectedCareer.vacancies || 1}
+                  </li>
+                  <li>
+                    <strong>Experience Required:</strong>{" "}
+                    {selectedCareer.experienceRequired || "Not specified"}
+                  </li>
+                  <li>
+                    <strong>Salary Range:</strong> {formattedSalaryRange}
+                  </li>
+                  <li>
+                    <strong>Application Deadline:</strong> {formattedDeadline}
+                  </li>
+                </ul>
+
+                <div className="career-detail-block">
+                  <strong>Description</strong>
+                  <p>{selectedCareer.description}</p>
+                </div>
+
+                <div className="career-detail-block">
+                  <strong>Requirements</strong>
+                  <p>{selectedCareer.requirements}</p>
+                </div>
+
+                {selectedCareer.responsibilities && (
+                  <div className="career-detail-block">
+                    <strong>Responsibilities</strong>
+                    <p>{selectedCareer.responsibilities}</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              !careersError && (
+                <p className="career-status-text">
+                  Join our team of highly trained hospitality professionals.
+                </p>
+              )
+            )}
+          </div>
         </div>
 
         <div className="careers-form-panel">
+          <div className="careers-form-header">
+            <p className="panel-mini-title">Application Form</p>
+            <h3>Apply for this role</h3>
+            <p>
+              Fill in your details carefully and submit your application for the
+              selected vacancy.
+            </p>
+          </div>
+
           <form className="careers-form-grid" onSubmit={handleApply}>
             <label>First Name</label>
             <input
@@ -392,7 +415,7 @@ function Careers({ onBackToMenu, onBookingClick }) {
 
             <div className="resume-row">
               <button type="button" className="upload-btn">
-                Uplode Resume
+                Upload Resume
               </button>
               <p>Please upload file with PDF format (max-file-size 2MB)</p>
             </div>
@@ -401,9 +424,7 @@ function Careers({ onBackToMenu, onBookingClick }) {
               <button
                 type="submit"
                 className="apply-btn"
-                disabled={
-                  isSubmitting || careersLoading || careers.length === 0
-                }
+                disabled={isSubmitting || careersLoading || careers.length === 0}
               >
                 {isSubmitting ? "APPLYING..." : "APPLY"}
               </button>
@@ -465,67 +486,26 @@ function Careers({ onBackToMenu, onBookingClick }) {
       </footer>
 
       {popup.show && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.6)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#fff",
-              padding: "40px",
-              borderRadius: "12px",
-              maxWidth: "420px",
-              width: "90%",
-              textAlign: "center",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-            }}
-          >
+        <div className="career-popup-backdrop">
+          <div className="career-popup-card">
             <h2
-              style={{
-                color: popup.type === "success" ? "#28a745" : "#dc3545",
-                marginTop: 0,
-                marginBottom: "15px",
-              }}
+              className={`career-popup-title ${
+                popup.type === "success" ? "success" : "error"
+              }`}
             >
               {popup.type === "success" ? "Thank You!" : "Oops!"}
             </h2>
-            <p
-              style={{
-                fontSize: "16px",
-                color: "#333",
-                marginBottom: "25px",
-                lineHeight: "1.5",
-              }}
-            >
-              {popup.message}
-            </p>
+
+            <p className="career-popup-message">{popup.message}</p>
+
             <button
               type="button"
+              className="career-popup-btn"
               onClick={() =>
                 setPopup({ show: false, message: "", type: "success" })
               }
-              style={{
-                padding: "12px 24px",
-                backgroundColor: "#00264d",
-                color: "#fff",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-                fontSize: "15px",
-                fontWeight: "bold",
-              }}
             >
-              {popup.type === "success" ? "Close" : "Close Details"}
+              Close
             </button>
           </div>
         </div>

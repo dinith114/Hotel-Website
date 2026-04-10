@@ -110,25 +110,8 @@ function Home() {
         </div>
 
         <div className="booking-bar">
-          <div
-            className="booking-item"
-            style={{
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "0 20px",
-              justifyContent: "center",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "10px",
-                color: "#666",
-                fontWeight: "bold",
-                letterSpacing: "1px",
-              }}
-            >
-              CHECK IN
-            </span>
+          <div className="booking-item booking-item-stack">
+            <span className="booking-label">CHECK IN</span>
             <input
               type="date"
               min={today}
@@ -141,79 +124,26 @@ function Home() {
                   setCheckOut("");
                 }
               }}
-              style={{
-                padding: "0",
-                border: "none",
-                outline: "none",
-                background: "transparent",
-                color: "#111",
-                fontSize: "1rem",
-                width: "100%",
-                cursor: "pointer",
-                marginTop: "4px",
-              }}
+              className="booking-date-input"
             />
           </div>
 
-          <div
-            className="booking-item"
-            style={{
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "0 20px",
-              justifyContent: "center",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "10px",
-                color: "#666",
-                fontWeight: "bold",
-                letterSpacing: "1px",
-              }}
-            >
-              CHECK OUT
-            </span>
+          <div className="booking-item booking-item-stack">
+            <span className="booking-label">CHECK OUT</span>
             <input
               type="date"
               min={checkIn ? getTomorrow(checkIn) : today}
               value={checkOut}
               onChange={(e) => setCheckOut(e.target.value)}
-              style={{
-                padding: "0",
-                border: "none",
-                outline: "none",
-                background: "transparent",
-                color: "#111",
-                fontSize: "1rem",
-                width: "100%",
-                cursor: "pointer",
-                marginTop: "4px",
-              }}
+              className="booking-date-input"
             />
           </div>
 
           <div
             ref={guestPopupRef}
-            className="booking-item home-guest-booking-item"
-            style={{
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "0 20px",
-              justifyContent: "center",
-              position: "relative",
-            }}
+            className="booking-item booking-item-stack home-guest-booking-item"
           >
-            <span
-              style={{
-                fontSize: "10px",
-                color: "#666",
-                fontWeight: "bold",
-                letterSpacing: "1px",
-              }}
-            >
-              GUESTS
-            </span>
+            <span className="booking-label">GUESTS</span>
 
             <button
               type="button"

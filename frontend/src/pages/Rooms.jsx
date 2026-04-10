@@ -17,6 +17,9 @@ function RoomInfoCard({
   onBookingClick,
   availableRooms,
 }) {
+  const isSoldOut = availableRooms === 0;
+  const hasAvailability = availableRooms !== undefined;
+
   return (
     <section className="room-info-card">
       <div className="room-info-image-wrap">
@@ -24,42 +27,33 @@ function RoomInfoCard({
       </div>
 
       <div className="room-info-text">
-        <h2>{title}</h2>
-        <p>{description}</p>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "20px",
-            marginTop: "20px",
-          }}
-        >
-          <button
-            type="button"
-            onClick={() => onBookingClick(title)}
-            disabled={availableRooms === 0}
-            style={{ opacity: availableRooms === 0 ? 0.5 : 1 }}
-          >
-            {availableRooms === 0 ? "SOLD OUT" : "BOOK NOW"}
-          </button>
+        <div className="room-title-row">
+          <h2>{title}</h2>
 
-          {availableRooms !== undefined && (
+          {hasAvailability && (
             <span
-              style={{
-                fontWeight: "bold",
-                color: availableRooms > 0 ? "#28a745" : "#dc3545",
-                fontSize: "14px",
-                padding: "6px 12px",
-                backgroundColor: availableRooms > 0 ? "#e8f5e9" : "#f8d7da",
-                borderRadius: "4px",
-              }}
+              className={`room-availability-badge ${
+                isSoldOut ? "sold-out" : "available"
+              }`}
             >
-              {availableRooms > 0
-                ? `${availableRooms} Room(s) Available`
-                : "No Rooms Available"}
+              {isSoldOut
+                ? "No Rooms Available"
+                : `${availableRooms} Room(s) Available`}
             </span>
           )}
+        </div>
+
+        <p>{description}</p>
+
+        <div className="room-action-row">
+          <button
+            type="button"
+            className="room-book-btn"
+            onClick={() => onBookingClick(title)}
+            disabled={isSoldOut}
+          >
+            {isSoldOut ? "SOLD OUT" : "BOOK NOW"}
+          </button>
         </div>
       </div>
     </section>
@@ -83,7 +77,7 @@ function Rooms() {
   const [checkIn, setCheckIn] = useState(searchDefaults.checkIn || "");
   const [checkOut, setCheckOut] = useState(searchDefaults.checkOut || "");
   const [adults, setAdults] = useState(
-    searchDefaults.adults || Number(searchDefaults.guests) || 1,
+    searchDefaults.adults || Number(searchDefaults.guests) || 1
   );
   const [children, setChildren] = useState(searchDefaults.children || 0);
   const [roomCount, setRoomCount] = useState(searchDefaults.roomCount || 1);
@@ -107,8 +101,9 @@ function Rooms() {
       if (searchDefaults.checkIn) setCheckIn(searchDefaults.checkIn);
       if (searchDefaults.checkOut) setCheckOut(searchDefaults.checkOut);
       if (searchDefaults.adults) setAdults(searchDefaults.adults);
-      if (searchDefaults.children !== undefined)
+      if (searchDefaults.children !== undefined) {
         setChildren(searchDefaults.children);
+      }
       if (searchDefaults.roomCount) setRoomCount(searchDefaults.roomCount);
       if (searchDefaults.guests && !searchDefaults.adults) {
         setAdults(Number(searchDefaults.guests));
@@ -151,6 +146,7 @@ function Rooms() {
         setAvailability([]);
       }
     };
+
     fetchAvailability();
   }, [checkIn, checkOut]);
 
@@ -197,7 +193,7 @@ function Rooms() {
 
     const targetRoomType = normalizeRoomType(roomType);
     const roomInfo = availability.find(
-      (r) => normalizeRoomType(r.roomType) === targetRoomType,
+      (r) => normalizeRoomType(r.roomType) === targetRoomType
     );
 
     return roomInfo ? roomInfo.availableRooms : undefined;
@@ -225,29 +221,13 @@ function Rooms() {
         </header>
 
         <div className="rooms-hero-content">
+          <p className="rooms-hero-tag">Elegant comfort for every stay</p>
           <h1>Our Rooms</h1>
         </div>
 
         <div className="rooms-booking-bar">
-          <div
-            className="rooms-booking-item"
-            style={{
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "0 20px",
-              justifyContent: "center",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "10px",
-                color: "#666",
-                fontWeight: "bold",
-                letterSpacing: "1px",
-              }}
-            >
-              CHECK IN
-            </span>
+          <div className="rooms-booking-item rooms-booking-item-stack">
+            <span className="rooms-booking-label">CHECK IN</span>
             <input
               type="date"
               min={today}
@@ -260,79 +240,26 @@ function Rooms() {
                   setCheckOut("");
                 }
               }}
-              style={{
-                padding: "0",
-                border: "none",
-                outline: "none",
-                background: "transparent",
-                color: "#111",
-                fontSize: "1rem",
-                width: "100%",
-                cursor: "pointer",
-                marginTop: "4px",
-              }}
+              className="rooms-date-input"
             />
           </div>
 
-          <div
-            className="rooms-booking-item"
-            style={{
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "0 20px",
-              justifyContent: "center",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "10px",
-                color: "#666",
-                fontWeight: "bold",
-                letterSpacing: "1px",
-              }}
-            >
-              CHECK OUT
-            </span>
+          <div className="rooms-booking-item rooms-booking-item-stack">
+            <span className="rooms-booking-label">CHECK OUT</span>
             <input
               type="date"
               min={checkIn ? getTomorrow(checkIn) : today}
               value={checkOut}
               onChange={(e) => setCheckOut(e.target.value)}
-              style={{
-                padding: "0",
-                border: "none",
-                outline: "none",
-                background: "transparent",
-                color: "#111",
-                fontSize: "1rem",
-                width: "100%",
-                cursor: "pointer",
-                marginTop: "4px",
-              }}
+              className="rooms-date-input"
             />
           </div>
 
           <div
             ref={guestPopupRef}
-            className="rooms-booking-item guest-booking-item"
-            style={{
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "0 20px",
-              justifyContent: "center",
-              position: "relative",
-            }}
+            className="rooms-booking-item rooms-booking-item-stack guest-booking-item"
           >
-            <span
-              style={{
-                fontSize: "10px",
-                color: "#666",
-                fontWeight: "bold",
-                letterSpacing: "1px",
-              }}
-            >
-              GUESTS
-            </span>
+            <span className="rooms-booking-label">GUESTS</span>
 
             <button
               type="button"
@@ -440,7 +367,10 @@ function Rooms() {
         />
 
         <section className="amenities-section">
-          <h2>Amenities</h2>
+          <div className="amenities-header">
+            <p className="amenities-tag">Stay with comfort</p>
+            <h2>Amenities</h2>
+          </div>
 
           <div className="amenities-grid">
             <AmenityItem text="Satellite Television" />
